@@ -4,6 +4,22 @@ import 'home_page.dart';
 
 const customColors = CustomColors();
 
+class ScreenSize extends StatelessWidget {
+  ScreenSize({super.key});
+
+  double? statusBarHeight;
+  double? screenHeight;
+  double? screenWidth;
+
+  @override
+  Widget build(BuildContext context) {
+    statusBarHeight = MediaQuery.of(context).padding.top;
+    screenHeight = MediaQuery.of(context).size.height - statusBarHeight!;
+    screenWidth = MediaQuery.of(context).size.width;
+    return const Scaffold();
+  }
+}
+
 void main() {
   runApp(const ElectronicsPocketTools());
 }

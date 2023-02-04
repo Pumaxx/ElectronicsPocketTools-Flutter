@@ -3,7 +3,14 @@ import 'main_menu.dart';
 
 class MenuButton extends StatefulWidget {
   final String? buttonText;
-  const MenuButton({Key? key, @required this.buttonText}) : super(key: key);
+  final double? screenHeight;
+  final double? screenWidth;
+  const MenuButton(
+      {Key? key,
+      @required this.buttonText,
+      @required this.screenHeight,
+      @required this.screenWidth})
+      : super(key: key);
 
   @override
   State<MenuButton> createState() => _MenuButtonState();
@@ -13,8 +20,8 @@ class _MenuButtonState extends State<MenuButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160.0,
-      width: 160.0,
+      height: widget.screenHeight! * 0.2,
+      width: widget.screenHeight! * 0.2,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10.0)),
         gradient: LinearGradient(
@@ -49,6 +56,7 @@ class _MenuButtonState extends State<MenuButton> {
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -56,19 +64,24 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    final double screenHeight =
+        MediaQuery.of(context).size.height - statusBarHeight;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: customColors.main,
       body: SafeArea(
         top: true,
         child: ListView(
           children: [
-            const SizedBox(height: 70.0),
+            SizedBox(height: screenHeight * 0.09),
             Row(
-              children: const [
-                Expanded(child: SizedBox()),
+              children: [
+                const Expanded(child: SizedBox()),
                 SizedBox(
-                  width: 220.0,
-                  child: Center(
+                  width: screenWidth * 0.53,
+                  child: const Center(
                     child: Text(
                       "Electronics Pocket Tools",
                       textAlign: TextAlign.center,
@@ -79,43 +92,61 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Expanded(child: SizedBox()),
+                const Expanded(child: SizedBox()),
               ],
             ),
-            const SizedBox(height: 60.0),
+            SizedBox(height: screenHeight * 0.075),
             Expanded(
                 child: Row(
               children: [
-                const SizedBox(
-                  width: 30.0,
+                SizedBox(width: screenWidth * 0.065),
+                SizedBox(
+                  width: screenWidth * 0.395,
+                  child: Column(
+                    children: [
+                      MenuButton(
+                          buttonText: "Register Recognition",
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth),
+                      SizedBox(height: screenHeight * 0.04),
+                      MenuButton(
+                          buttonText: "Logic Gates Simulator",
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth),
+                      SizedBox(height: screenHeight * 0.04),
+                      MenuButton(
+                          buttonText: "Preferred Values E series",
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth),
+                    ],
+                  ),
                 ),
-                Column(
-                  children: const [
-                    MenuButton(buttonText: "Register Recognition"),
-                    SizedBox(height: 30.0),
-                    MenuButton(buttonText: "Logic Gates Simulator"),
-                    SizedBox(height: 30.0),
-                    MenuButton(buttonText: "Preferred Values E series"),
-                  ],
+                SizedBox(width: screenWidth * 0.08),
+                SizedBox(
+                  width: screenWidth * 0.395,
+                  child: Column(
+                    children: [
+                      MenuButton(
+                          buttonText: "Wave Parameters Calculator",
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth),
+                      SizedBox(height: screenHeight * 0.04),
+                      MenuButton(
+                          buttonText: "Digital Filters Realization",
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth),
+                      SizedBox(height: screenHeight * 0.04),
+                      MenuButton(
+                          buttonText: "Amplification Suppression",
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth),
+                    ],
+                  ),
                 ),
-                const Expanded(
-                  child: SizedBox(),
-                ),
-                Column(
-                  children: const [
-                    MenuButton(buttonText: "Wave Parameters Calculator"),
-                    SizedBox(height: 30.0),
-                    MenuButton(buttonText: "Digital Filters Realization"),
-                    SizedBox(height: 30.0),
-                    MenuButton(buttonText: "Amplification Suppression"),
-                  ],
-                ),
-                const SizedBox(
-                  width: 30.0,
-                ),
+                SizedBox(width: screenWidth * 0.065),
               ],
             )),
-            const SizedBox(height: 65.0)
+            SizedBox(height: screenHeight * 0.08)
           ],
         ),
       ),
