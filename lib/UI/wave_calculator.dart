@@ -1,7 +1,6 @@
 import 'package:electronic_packet_tools/main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
 import 'UI_recorces/tool_containers.dart';
 
 class WaveCalculatorPage extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:electronic_packet_tools/UI/wave_calculator.dart';
 import 'package:flutter/material.dart';
 import 'UI/UI_recorces/colors.dart';
+import 'UI/amplification_suppression.dart';
 
 const customColors = CustomColors();
 
@@ -14,7 +15,7 @@ class ElectronicsPocketTools extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const WaveCalculatorPage(),
+      home: const AmplificationSuppressionPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
     );
