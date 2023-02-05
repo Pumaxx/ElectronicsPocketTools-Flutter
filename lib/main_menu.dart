@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'UI/UI_recorces/colors.dart';
 import 'UI/amplification_suppression.dart';
 import 'UI/digital_filters.dart';
+import 'UI/logic_gates.dart';
 
 const customColors = CustomColors();
 
@@ -16,7 +17,7 @@ class ElectronicsPocketTools extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const DigitalFiltersPage(),
+      home: const LogicGatesPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
     );
