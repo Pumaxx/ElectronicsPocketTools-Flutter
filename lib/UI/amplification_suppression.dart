@@ -76,7 +76,7 @@ class _AmplificationSuppressionPageState
                           width: screenWidth * 0.9,
                         ),
                         TollContainerTitleBar(
-                            title: "Period",
+                            title: "Power",
                             screenWidth: screenWidth,
                             screenHeight: screenHeight),
                       ],
