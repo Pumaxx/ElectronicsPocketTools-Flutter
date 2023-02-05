@@ -5,6 +5,7 @@ import 'UI/amplification_suppression.dart';
 import 'UI/digital_filters.dart';
 import 'UI/logic_gates.dart';
 import 'UI/preferred_values.dart';
+import 'UI/resistor_recognition.dart';
 
 const customColors = CustomColors();
 
@@ -18,7 +19,7 @@ class ElectronicsPocketTools extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const PreferredValuesPage(),
+      home: const ResistorRecognitionPage(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
     );
