@@ -1,58 +1,5 @@
 import 'package:flutter/material.dart';
-import 'main_menu.dart';
-
-class MenuButton extends StatefulWidget {
-  final String? buttonText;
-  final double? screenHeight;
-  final double? screenWidth;
-  const MenuButton(
-      {Key? key,
-      @required this.buttonText,
-      @required this.screenHeight,
-      @required this.screenWidth})
-      : super(key: key);
-
-  @override
-  State<MenuButton> createState() => _MenuButtonState();
-}
-
-class _MenuButtonState extends State<MenuButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: widget.screenHeight! * 0.2,
-      width: widget.screenHeight! * 0.2,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-        gradient: LinearGradient(
-          begin: Alignment.bottomLeft,
-          end: const Alignment(2.0, 0.2),
-          colors: [
-            customColors.buttonGradienStart,
-            customColors.buttonGradienEnd,
-          ],
-        ),
-      ),
-      child: TextButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.white,
-          textStyle: const TextStyle(
-            fontSize: 15.5,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        child: Flexible(
-          child: Text(
-            widget.buttonText!,
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    );
-  }
-}
+import '../main_menu.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -78,9 +25,9 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: screenHeight * 0.09),
             Row(
               children: [
-                const Expanded(child: SizedBox()),
+                SizedBox(width: screenWidth * 0.25),
                 SizedBox(
-                  width: screenWidth * 0.53,
+                  width: screenWidth * 0.5,
                   child: const Center(
                     child: Text(
                       "Electronics Pocket Tools",
@@ -92,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const Expanded(child: SizedBox()),
+                SizedBox(width: screenWidth * 0.25),
               ],
             ),
             SizedBox(height: screenHeight * 0.075),
@@ -148,6 +95,59 @@ class _HomePageState extends State<HomePage> {
             )),
             SizedBox(height: screenHeight * 0.08)
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class MenuButton extends StatefulWidget {
+  final String? buttonText;
+  final double? screenHeight;
+  final double? screenWidth;
+  const MenuButton(
+      {Key? key,
+      @required this.buttonText,
+      @required this.screenHeight,
+      @required this.screenWidth})
+      : super(key: key);
+
+  @override
+  State<MenuButton> createState() => _MenuButtonState();
+}
+
+class _MenuButtonState extends State<MenuButton> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: widget.screenHeight! * 0.2,
+      width: widget.screenHeight! * 0.2,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+        gradient: LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: const Alignment(2.0, 0.2),
+          colors: [
+            customColors.buttonGradienStart,
+            customColors.buttonGradienEnd,
+          ],
+        ),
+      ),
+      child: TextButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.white,
+          textStyle: const TextStyle(
+            fontSize: 15.5,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        child: Flexible(
+          child: Text(
+            widget.buttonText!,
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

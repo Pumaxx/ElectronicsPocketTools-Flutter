@@ -10,7 +10,7 @@ class CustomColors {
   final containerResult = const Color(0xFF2baf6c);
   final containerResultOutput = const Color(0xFF40b77b);
   final buttonColor = const Color(0xFF228c56);
-  final backgroundFragment = const Color(0xFF404040);
+  final backgroundTool = const Color(0xFF404040);
 
   final buttonGradienStart = const Color(0xFF2c664a);
   final buttonGradienEnd = const Color(0xFF40b77b);
