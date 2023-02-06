@@ -61,9 +61,55 @@ class _AmplificationSuppressionPageState
                         TollContainer(
                           height: screenHeight * 0.35,
                           width: screenWidth * 0.9,
+                          child: Row(
+                            children: [
+                              SizedBox(width: screenWidth * 0.035),
+                              SizedBox(
+                                width: screenWidth * 0.84,
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: screenHeight * 0.04),
+                                    AmpSuppValueContainer(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                      label: 'Input',
+                                      unit: 'V or A',
+                                    ),
+                                    AmpSuppValueContainer(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                      label: 'Output',
+                                      unit: 'V or A',
+                                    ),
+                                    AmpSuppValueContainer(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                      label: 'Dimensionless result',
+                                      unit: 'V/V or A/A',
+                                      color: customColors.containerResult,
+                                      enabled: false,
+                                    ),
+                                    AmpSuppValueContainer(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                      label: 'dB result',
+                                      unit: 'dB',
+                                      color: customColors.containerResult,
+                                      enabled: false,
+                                    ),
+                                    SizedBox(
+                                      height: screenHeight * 0.0245,
+                                      width: screenWidth * 0.79,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: screenWidth * 0.01),
+                            ],
+                          ),
                         ),
                         TollContainerTitleBar(
-                            title: "Voltage / Current",
+                            title: 'Voltage / Current',
                             screenWidth: screenWidth,
                             screenHeight: screenHeight),
                       ],
@@ -74,9 +120,55 @@ class _AmplificationSuppressionPageState
                         TollContainer(
                           height: screenHeight * 0.35,
                           width: screenWidth * 0.9,
+                          child: Row(
+                            children: [
+                              SizedBox(width: screenWidth * 0.035),
+                              SizedBox(
+                                width: screenWidth * 0.84,
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: screenHeight * 0.04),
+                                    AmpSuppValueContainer(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                      label: 'Input',
+                                      unit: 'W',
+                                    ),
+                                    AmpSuppValueContainer(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                      label: 'Output',
+                                      unit: 'W',
+                                    ),
+                                    AmpSuppValueContainer(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                      label: 'Dimensionless result',
+                                      unit: 'W/W',
+                                      color: customColors.containerResult,
+                                      enabled: false,
+                                    ),
+                                    AmpSuppValueContainer(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                      label: 'dB result',
+                                      unit: 'dB',
+                                      color: customColors.containerResult,
+                                      enabled: false,
+                                    ),
+                                    SizedBox(
+                                      height: screenHeight * 0.0245,
+                                      width: screenWidth * 0.79,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(width: screenWidth * 0.01),
+                            ],
+                          ),
                         ),
                         TollContainerTitleBar(
-                            title: "Power",
+                            title: 'Power',
                             screenWidth: screenWidth,
                             screenHeight: screenHeight),
                       ],
@@ -89,6 +181,82 @@ class _AmplificationSuppressionPageState
             SizedBox(height: screenHeight * 0.085),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class AmpSuppValueContainer extends StatelessWidget {
+  final double? screenHeight;
+  final double? screenWidth;
+  final String? label;
+  final String? unit;
+  final Color? color;
+  final bool? enabled;
+
+  const AmpSuppValueContainer(
+      {Key? key,
+      @required this.screenHeight,
+      @required this.screenWidth,
+      @required this.label,
+      @required this.unit,
+      this.color,
+      this.enabled = true})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: screenHeight! * 0.066,
+      width: screenWidth! * 0.84,
+      child: Column(
+        children: [
+          SizedBox(
+            height: screenHeight! * 0.033,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: AutoSizeText(
+                label!,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: color ?? Colors.white,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: screenHeight! * 0.033,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: screenWidth! * 0.63,
+                  child: TextField(
+                    enabled: enabled,
+                    maxLines: 1,
+                    keyboardType: TextInputType.number,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: color ?? Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: screenWidth! * 0.21,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: AutoSizeText(
+                      unit!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: color ?? Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

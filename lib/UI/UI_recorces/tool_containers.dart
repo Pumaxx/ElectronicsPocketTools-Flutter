@@ -60,6 +60,7 @@ class TollContainerTitleBar extends StatelessWidget {
           child: AutoSizeText(
             title!,
             maxLines: 1,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
       ),
