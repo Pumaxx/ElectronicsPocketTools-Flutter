@@ -235,8 +235,8 @@ class AmpSuppValueContainer extends StatelessWidget {
                     maxLines: 1,
                     keyboardType: TextInputType.number,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
                       color: color ?? Colors.white,
+                      fontSize: screenWidth! * 0.0375,
                     ),
                   ),
                 ),
