@@ -1,6 +1,7 @@
 import 'package:electronic_packet_tools/main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/services.dart';
 import 'UI_recorces/tool_containers.dart';
 import 'UI_recorces/units.dart';
 
@@ -275,10 +276,23 @@ class _WaveValueContainerState extends State<WaveValueContainer> {
                     child: TextField(
                       enabled: widget.enabled,
                       maxLines: 1,
+                      cursorColor: Colors.white,
+                      cursorWidth: 1.5,
                       keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
                       style: TextStyle(
                         color: widget.color ?? Colors.white,
                         fontSize: widget.screenWidth! * 0.0375,
+                      ),
+                      decoration: const InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.white),
+                        ),
                       ),
                     ),
                   ),

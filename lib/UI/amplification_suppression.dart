@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/services.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
 
@@ -231,12 +232,25 @@ class AmpSuppValueContainer extends StatelessWidget {
                 SizedBox(
                   width: screenWidth! * 0.63,
                   child: TextField(
+                    cursorColor: Colors.white,
+                    cursorWidth: 1.5,
                     enabled: enabled,
                     maxLines: 1,
                     keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     style: TextStyle(
                       color: color ?? Colors.white,
                       fontSize: screenWidth! * 0.0375,
+                    ),
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
                     ),
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/services.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
 
@@ -84,14 +85,35 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
                                 ),
                               ),
                               SizedBox(
-                                width: screenWidth * 0.32,
-                                child: const AutoSizeText(
-                                  "___________________",
-                                  maxLines: 1,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                width: screenWidth * 0.22,
+                                height: screenHeight * 0.03,
+                                child: Center(
+                                  child: TextField(
+                                    cursorColor: Colors.white,
+                                    cursorWidth: 1.5,
+                                    maxLines: 1,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: screenWidth * 0.0375,
+                                    ),
+                                    decoration: const InputDecoration(
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                              SizedBox(width: screenWidth * 0.13),
+                              SizedBox(width: screenWidth * 0.23),
                             ],
                           ),
                         ),
