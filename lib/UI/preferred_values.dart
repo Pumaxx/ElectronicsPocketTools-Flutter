@@ -58,8 +58,38 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
                     Stack(
                       children: [
                         TollContainer(
-                          height: screenHeight * 0.58,
+                          height: screenHeight * 0.5515,
                           width: screenWidth * 0.9,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: screenHeight * 0.09,
+                              ),
+                              SizedBox(
+                                height: screenHeight * 0.02,
+                              ),
+                              SizedBox(
+                                height: screenHeight * 0.4,
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: screenWidth * 0.04,
+                                    ),
+                                    PreferedValuesContent(
+                                      screenHeight: screenHeight,
+                                      screenWidth: screenWidth,
+                                    ),
+                                    SizedBox(
+                                      width: screenWidth * 0.04,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: screenHeight * 0.02,
+                              ),
+                            ],
+                          ),
                         ),
                         Container(
                           width: screenWidth * 0.9,
@@ -128,6 +158,91 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class PreferedValuesContent extends StatelessWidget {
+  final double? screenHeight;
+  final double? screenWidth;
+  const PreferedValuesContent(
+      {Key? key, @required this.screenHeight, @required this.screenWidth})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: screenWidth! * 0.807,
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Table(
+          columnWidths: const {
+            0: FractionColumnWidth(0.2),
+            1: FractionColumnWidth(0.3),
+            2: FractionColumnWidth(0.35),
+            3: FractionColumnWidth(0.15),
+          },
+          children: [
+            buildRow(
+              ['E', 'Value', 'Error Value', 'Err%'],
+              isHeader: true,
+            ),
+            buildRow(['470', '520', '90%'], eNumber: "E3"),
+            buildRow(['470', '520', '90%'], eNumber: 'E6'),
+            buildRow(['470', '520', '90%'], eNumber: 'E12'),
+            buildRow(['470', '520', '90%'], eNumber: 'E24'),
+            buildRow(['470', '520', '90%'], eNumber: 'E48'),
+            buildRow(['470', '520', '90%'], eNumber: 'E96'),
+            buildRow(['470', '520', '90%'], eNumber: 'E192'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  TableRow buildRow(List<String> cells,
+      {String? eNumber, bool isHeader = false}) {
+    double fontSize = screenHeight! * 0.0185;
+
+    List<Padding> values = cells.map((text) {
+      return Padding(
+        padding: isHeader
+            ? EdgeInsets.symmetric(vertical: screenHeight! * 0.015)
+            : EdgeInsets.symmetric(vertical: screenHeight! * 0.013),
+        child: Center(
+            child: AutoSizeText(
+          text,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: isHeader ? customColors.main : Colors.white,
+            fontSize: fontSize,
+          ),
+        )),
+      );
+    }).toList();
+
+    Padding? eValue = eNumber != null
+        ? Padding(
+            padding: EdgeInsets.symmetric(vertical: screenHeight! * 0.013),
+            child: Center(
+              child: AutoSizeText(
+                eNumber,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: customColors.containerResult,
+                  fontSize: fontSize,
+                ),
+              ),
+            ),
+          )
+        : null;
+
+    if (eValue != null) {
+      values.insert(0, eValue);
+    }
+
+    return TableRow(
+      children: values,
     );
   }
 }

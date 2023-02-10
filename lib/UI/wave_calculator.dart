@@ -302,10 +302,7 @@ class _WaveValueContainerState extends State<WaveValueContainer> {
             width: widget.screenWidth! * 0.21,
             child: Row(
               children: [
-                Container(
-                  width: widget.screenWidth! * 0.03,
-                  color: customColors.secondary,
-                ),
+                SizedBox(width: widget.screenWidth! * 0.03),
                 SizedBox(
                   width: widget.screenWidth! * 0.15,
                   child: Column(
