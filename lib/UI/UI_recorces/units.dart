@@ -6,6 +6,7 @@ class Units {
   final String energy = 'eV';
   final String speed = 'm/s';
   final String time = 's';
+  final String resistance = 'Ω';
 
   final List<String> lenghtUnits = [
     'nm',
@@ -43,5 +44,11 @@ class Units {
     'μs',
     'ms',
     's',
+  ];
+  final List<String> resistanceUnits = [
+    'Ω',
+    'kΩ',
+    'MΩ',
+    'GΩ',
   ];
 }
