@@ -62,21 +62,21 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       MenuButton(
-                        buttonText: "Register Recognition",
+                        buttonText: 'Register Recognition',
                         screenHeight: screenHeight,
                         screenWidth: screenWidth,
                         page: const ResistorRecognitionPage(),
                       ),
                       SizedBox(height: screenHeight * 0.04),
                       MenuButton(
-                        buttonText: "Logic Gates Simulator",
+                        buttonText: 'Logic Gates Simulator',
                         screenHeight: screenHeight,
                         screenWidth: screenWidth,
                         page: const LogicGatesPage(),
                       ),
                       SizedBox(height: screenHeight * 0.04),
                       MenuButton(
-                        buttonText: "Preferred Values E series",
+                        buttonText: 'Preferred Values E series',
                         screenHeight: screenHeight,
                         screenWidth: screenWidth,
                         page: const PreferredValuesPage(),
@@ -90,21 +90,21 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       MenuButton(
-                        buttonText: "Wave Parameters Calculator",
+                        buttonText: 'Wave Parameters Calculator',
                         screenHeight: screenHeight,
                         screenWidth: screenWidth,
                         page: const WaveCalculatorPage(),
                       ),
                       SizedBox(height: screenHeight * 0.04),
                       MenuButton(
-                        buttonText: "Digital Filters Realization",
+                        buttonText: 'Digital Filters Realization',
                         screenHeight: screenHeight,
                         screenWidth: screenWidth,
                         page: const DigitalFiltersPage(),
                       ),
                       SizedBox(height: screenHeight * 0.04),
                       MenuButton(
-                        buttonText: "Amplification Suppression",
+                        buttonText: 'Amplification Suppression',
                         screenHeight: screenHeight,
                         screenWidth: screenWidth,
                         page: const AmplificationSuppressionPage(),

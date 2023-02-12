@@ -107,7 +107,7 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
                                 width: screenWidth * 0.32,
                                 child: const Center(
                                   child: AutoSizeText(
-                                    "Enter Ideal Value",
+                                    'Enter Ideal Value',
                                     maxLines: 1,
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
@@ -187,7 +187,7 @@ class PreferedValuesContent extends StatelessWidget {
               ['E', 'Value', 'Error Value', 'Err%'],
               isHeader: true,
             ),
-            buildRow(['470', '520', '90%'], eNumber: "E3"),
+            buildRow(['470', '520', '90%'], eNumber: 'E3'),
             buildRow(['470', '520', '90%'], eNumber: 'E6'),
             buildRow(['470', '520', '90%'], eNumber: 'E12'),
             buildRow(['470', '520', '90%'], eNumber: 'E24'),

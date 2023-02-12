@@ -65,7 +65,7 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
                           ),
                         ),
                         TollContainerTitleBar(
-                            title: "First filter parameters",
+                            title: 'First filter parameters',
                             screenWidth: screenWidth,
                             screenHeight: screenHeight),
                       ],
@@ -82,7 +82,7 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
                           ),
                         ),
                         TollContainerTitleBar(
-                            title: "Second filter parameters",
+                            title: 'Second filter parameters',
                             screenWidth: screenWidth,
                             screenHeight: screenHeight),
                       ],
@@ -99,7 +99,7 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
                           ),
                         ),
                         TollContainerTitleBar(
-                            title: "Realization result",
+                            title: 'Realization result',
                             screenWidth: screenWidth,
                             screenHeight: screenHeight),
                       ],

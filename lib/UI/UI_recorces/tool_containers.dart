@@ -73,13 +73,13 @@ class DropdownContainer extends StatefulWidget {
   final double? screenHeight;
   final double? screenWidth;
   final String? label;
-  String? value;
+  final String? value;
   final List<String>? units;
   final Color? color;
   final bool? enabled;
   final String? hint;
 
-  DropdownContainer(
+  const DropdownContainer(
       {Key? key,
       @required this.screenHeight,
       @required this.screenWidth,
@@ -95,6 +95,14 @@ class DropdownContainer extends StatefulWidget {
 }
 
 class _DropdownContainerState extends State<DropdownContainer> {
+  String? dropdownvalue;
+
+  @override
+  void initState() {
+    dropdownvalue = widget.value;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -170,7 +178,7 @@ class _DropdownContainerState extends State<DropdownContainer> {
                           alignment: Alignment.center,
                           child: DropdownButton(
                             dropdownColor: customColors.containerMainInput,
-                            value: widget.value!,
+                            value: dropdownvalue,
                             underline: Container(),
                             iconSize: widget.screenWidth! * 0.05,
                             icon: Icon(
@@ -193,7 +201,7 @@ class _DropdownContainerState extends State<DropdownContainer> {
                             onChanged: (String? newValue) {
                               setState(
                                 () {
-                                  widget.value = newValue!;
+                                  dropdownvalue = newValue!;
                                 },
                               );
                             },
