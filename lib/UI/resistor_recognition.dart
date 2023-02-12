@@ -15,10 +15,12 @@ class ResistorRecognitionPage extends StatefulWidget {
 class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
   @override
   void initState() {
-    for (int i = 0; i < firstStripeColors.length; i++) {
+    for (int i = 0; i < firstStripeColors.length - 1; i++) {
       firstStripeColors[i] = Colors.black;
       secondStripeColors[i] = Colors.black;
     }
+    firstStripeColors[3] = customColors.brown;
+    secondStripeColors[3] = customColors.brown;
     super.initState();
   }
 
@@ -26,14 +28,14 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
     Colors.black,
     Colors.black,
     Colors.black,
-    Colors.black,
+    customColors.brown,
   ];
 
   List<Color> secondStripeColors = [
     Colors.black,
     Colors.black,
     Colors.black,
-    Colors.black,
+    customColors.brown,
   ];
 
   void setStripeColor(int id, Color color, Color secondColor) {

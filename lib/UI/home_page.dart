@@ -164,12 +164,16 @@ class MenuButton extends StatelessWidget {
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.white,
         ),
-        child: AutoSizeText(
-          buttonText!,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 15.5,
-            fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: EdgeInsets.all(screenHeight! * 0.01),
+          child: AutoSizeText(
+            buttonText!,
+            maxLines: 3,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: screenHeight! * 0.022,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
