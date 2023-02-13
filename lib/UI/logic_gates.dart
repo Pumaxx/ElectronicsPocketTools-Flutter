@@ -1,5 +1,8 @@
+import 'package:electronic_packet_tools/Business%20Logic/logic_gates_logic.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
+import '../constants.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
 
@@ -11,6 +14,12 @@ class LogicGatesPage extends StatefulWidget {
 }
 
 class _LogicGatesPageState extends State<LogicGatesPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<LogicGatesLogic>().resetOutputs();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -57,7 +66,7 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
                                               screenHeight: screenHeight,
                                               screenWidth: screenWidth,
                                               isReversed: false,
-                                              title: 'AND',
+                                              title: AND_GATE,
                                               image:
                                                   'resources/images/and_gate.png',
                                             ),
@@ -68,7 +77,7 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
                                               screenHeight: screenHeight,
                                               screenWidth: screenWidth,
                                               isReversed: true,
-                                              title: 'NAND',
+                                              title: NAND_GATE,
                                               image:
                                                   'resources/images/nand_gate.png',
                                             ),
@@ -79,7 +88,7 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
                                               screenHeight: screenHeight,
                                               screenWidth: screenWidth,
                                               isReversed: false,
-                                              title: 'OR',
+                                              title: OR_GATE,
                                               image:
                                                   'resources/images/or_gate.png',
                                             ),
@@ -90,7 +99,7 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
                                               screenHeight: screenHeight,
                                               screenWidth: screenWidth,
                                               isReversed: true,
-                                              title: 'NOR',
+                                              title: NOR_GATE,
                                               image:
                                                   'resources/images/nor_gate.png',
                                             ),
@@ -101,7 +110,7 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
                                               screenHeight: screenHeight,
                                               screenWidth: screenWidth,
                                               isReversed: false,
-                                              title: 'XOR',
+                                              title: XOR_GATE,
                                               image:
                                                   'resources/images/xor_gate.png',
                                             ),
@@ -112,7 +121,7 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
                                               screenHeight: screenHeight,
                                               screenWidth: screenWidth,
                                               isReversed: true,
-                                              title: 'XNOR',
+                                              title: XNOR_GATE,
                                               image:
                                                   'resources/images/xnor_gate.png',
                                             ),
@@ -168,22 +177,93 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
   }
 }
 
+class GateRow extends StatelessWidget {
+  final double? screenHeight;
+  final double? screenWidth;
+  final bool? isReversed;
+  final String? title;
+  final String? image;
+  const GateRow({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+    @required this.isReversed,
+    @required this.title,
+    @required this.image,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (isReversed!) {
+      return Row(
+        children: [
+          GateNameContainer(
+            screenHeight: screenHeight,
+            screenWidth: screenWidth,
+            title: title,
+          ),
+          GateContainer(
+            screenHeight: screenHeight,
+            screenWidth: screenWidth,
+            image: image,
+            gateType: title,
+          ),
+        ],
+      );
+    }
+
+    return Row(
+      children: [
+        GateContainer(
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
+          image: image,
+          gateType: title,
+        ),
+        GateNameContainer(
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
+          title: title,
+        ),
+      ],
+    );
+  }
+}
+
 class GateContainer extends StatefulWidget {
   final double? screenHeight;
   final double? screenWidth;
   final String? image;
-  const GateContainer(
-      {Key? key,
-      @required this.screenHeight,
-      @required this.screenWidth,
-      @required this.image})
-      : super(key: key);
+  final String? gateType;
+  const GateContainer({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+    @required this.image,
+    @required this.gateType,
+  }) : super(key: key);
 
   @override
   State<GateContainer> createState() => _GateContainerState();
 }
 
+List<String> inputs = ['0', '0'];
+
+void changeInputValue(int index, String value) {
+  inputs[index] = value;
+}
+
+List<String> getInputValues() {
+  return inputs;
+}
+
 class _GateContainerState extends State<GateContainer> {
+  @override
+  void initState() {
+    super.initState();
+    inputs = ['0', '0'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -205,6 +285,10 @@ class _GateContainerState extends State<GateContainer> {
                 GateButton(
                   screenHeight: widget.screenHeight!,
                   screenWidth: widget.screenWidth!,
+                  index: 0,
+                  onPressChangeInputValue: changeInputValue,
+                  getInputList: getInputValues,
+                  gateType: widget.gateType!,
                 ),
                 SizedBox(
                   height: ((widget.screenHeight! * 0.131) -
@@ -214,6 +298,10 @@ class _GateContainerState extends State<GateContainer> {
                 GateButton(
                   screenHeight: widget.screenHeight!,
                   screenWidth: widget.screenWidth!,
+                  index: 1,
+                  onPressChangeInputValue: changeInputValue,
+                  getInputList: getInputValues,
+                  gateType: widget.gateType!,
                 ),
                 SizedBox(
                   height: ((widget.screenHeight! * 0.131) -
@@ -240,10 +328,10 @@ class _GateContainerState extends State<GateContainer> {
                           (widget.screenWidth! * 0.085)) /
                       2,
                 ),
-                GateButton(
+                GateRessult(
                   screenHeight: widget.screenHeight!,
                   screenWidth: widget.screenWidth!,
-                  isResult: true,
+                  gateType: widget.gateType!,
                 ),
                 SizedBox(
                   height: ((widget.screenHeight! * 0.131) -
@@ -290,94 +378,100 @@ class GateNameContainer extends StatelessWidget {
   }
 }
 
-class GateRow extends StatelessWidget {
-  final double? screenHeight;
-  final double? screenWidth;
-  final bool? isReversed;
-  final String? title;
-  final String? image;
-  const GateRow(
-      {Key? key,
-      @required this.screenHeight,
-      @required this.screenWidth,
-      @required this.isReversed,
-      @required this.title,
-      @required this.image})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (isReversed!) {
-      return Row(
-        children: [
-          GateNameContainer(
-            screenHeight: screenHeight,
-            screenWidth: screenWidth,
-            title: title,
-          ),
-          GateContainer(
-            screenHeight: screenHeight,
-            screenWidth: screenWidth,
-            image: image,
-          ),
-        ],
-      );
-    }
-
-    return Row(
-      children: [
-        GateContainer(
-          screenHeight: screenHeight,
-          screenWidth: screenWidth,
-          image: image,
-        ),
-        GateNameContainer(
-          screenHeight: screenHeight,
-          screenWidth: screenWidth,
-          title: title,
-        ),
-      ],
-    );
-  }
-}
-
 class GateButton extends StatefulWidget {
   final double? screenHeight;
   final double? screenWidth;
-  final bool? isResult;
-  const GateButton(
-      {Key? key,
-      @required this.screenHeight,
-      @required this.screenWidth,
-      this.isResult = false})
-      : super(key: key);
+  final int? index;
+  final Function(int index, String value)? onPressChangeInputValue;
+  final Function()? getInputList;
+  final String? gateType;
+  const GateButton({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+    @required this.index,
+    @required this.onPressChangeInputValue,
+    @required this.getInputList,
+    @required this.gateType,
+  }) : super(key: key);
 
   @override
   State<GateButton> createState() => _GateButtonState();
 }
 
 class _GateButtonState extends State<GateButton> {
+  String text = '0';
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: widget.screenWidth! * 0.085,
       decoration: BoxDecoration(
-        color:
-            widget.isResult! ? customColors.containerResult : customColors.main,
+        color: customColors.main,
         borderRadius: const BorderRadius.all(
           Radius.circular(4.0),
         ),
       ),
       child: TextButton(
-        onPressed: widget.isResult! ? null : () {},
+        onPressed: () {
+          setState(() {
+            text = context.read<LogicGatesLogic>().onPress(text);
+            widget.onPressChangeInputValue!(widget.index!, text);
+            context
+                .read<LogicGatesLogic>()
+                .countResult(widget.getInputList!(), widget.gateType!);
+          });
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.white,
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: widget.screenHeight! * 0.02,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class GateRessult extends StatefulWidget {
+  final double? screenHeight;
+  final double? screenWidth;
+  final String? gateType;
+  const GateRessult({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+    @required this.gateType,
+  }) : super(key: key);
+
+  @override
+  State<GateRessult> createState() => _GateRessultState();
+}
+
+class _GateRessultState extends State<GateRessult> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: widget.screenWidth! * 0.085,
+      decoration: BoxDecoration(
+        color: customColors.containerResult,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(4.0),
+        ),
+      ),
+      child: TextButton(
+        onPressed: null,
+        style: ElevatedButton.styleFrom(
           disabledBackgroundColor: Colors.transparent,
           disabledForegroundColor: Colors.white,
         ),
         child: Text(
-          '0',
+          context.watch<LogicGatesLogic>().getOutput(widget.gateType!),
           style: TextStyle(
             fontSize: widget.screenHeight! * 0.02,
             fontWeight: FontWeight.bold,
