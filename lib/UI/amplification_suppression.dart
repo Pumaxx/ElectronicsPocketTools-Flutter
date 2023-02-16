@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../Business Logic/amplification_suppression_logic.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
 
@@ -14,6 +16,13 @@ class AmplificationSuppressionPage extends StatefulWidget {
 
 class _AmplificationSuppressionPageState
     extends State<AmplificationSuppressionPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<VoltageCurrentLogic>().resetFields();
+    context.read<PowerLogic>().resetFields();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -67,42 +76,9 @@ class _AmplificationSuppressionPageState
                               SizedBox(width: screenWidth * 0.035),
                               SizedBox(
                                 width: screenWidth * 0.84,
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: screenHeight * 0.04),
-                                    AmpSuppValueContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Input',
-                                      unit: 'V or A',
-                                    ),
-                                    AmpSuppValueContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Output',
-                                      unit: 'V or A',
-                                    ),
-                                    AmpSuppValueContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Dimensionless result',
-                                      unit: 'V/V or A/A',
-                                      color: customColors.containerResult,
-                                      enabled: false,
-                                    ),
-                                    AmpSuppValueContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'dB result',
-                                      unit: 'dB',
-                                      color: customColors.containerResult,
-                                      enabled: false,
-                                    ),
-                                    SizedBox(
-                                      height: screenHeight * 0.0245,
-                                      width: screenWidth * 0.79,
-                                    ),
-                                  ],
+                                child: VoltCurrContainer(
+                                  screenHeight: screenHeight,
+                                  screenWidth: screenWidth,
                                 ),
                               ),
                               SizedBox(width: screenWidth * 0.01),
@@ -126,42 +102,9 @@ class _AmplificationSuppressionPageState
                               SizedBox(width: screenWidth * 0.035),
                               SizedBox(
                                 width: screenWidth * 0.84,
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: screenHeight * 0.04),
-                                    AmpSuppValueContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Input',
-                                      unit: 'W',
-                                    ),
-                                    AmpSuppValueContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Output',
-                                      unit: 'W',
-                                    ),
-                                    AmpSuppValueContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Dimensionless result',
-                                      unit: 'W/W',
-                                      color: customColors.containerResult,
-                                      enabled: false,
-                                    ),
-                                    AmpSuppValueContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'dB result',
-                                      unit: 'dB',
-                                      color: customColors.containerResult,
-                                      enabled: false,
-                                    ),
-                                    SizedBox(
-                                      height: screenHeight * 0.0245,
-                                      width: screenWidth * 0.79,
-                                    ),
-                                  ],
+                                child: PowerContainer(
+                                  screenHeight: screenHeight,
+                                  screenWidth: screenWidth,
                                 ),
                               ),
                               SizedBox(width: screenWidth * 0.01),
@@ -187,23 +130,33 @@ class _AmplificationSuppressionPageState
   }
 }
 
-class AmpSuppValueContainer extends StatelessWidget {
+class AmpSuppInputContainer extends StatelessWidget {
   final double? screenHeight;
   final double? screenWidth;
   final String? label;
   final String? unit;
-  final Color? color;
-  final bool? enabled;
+  final int? index;
+  final bool? isPower;
 
-  const AmpSuppValueContainer(
-      {Key? key,
-      @required this.screenHeight,
-      @required this.screenWidth,
-      @required this.label,
-      @required this.unit,
-      this.color,
-      this.enabled = true})
-      : super(key: key);
+  const AmpSuppInputContainer({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+    @required this.label,
+    @required this.unit,
+    @required this.index,
+    this.isPower = false,
+  }) : super(key: key);
+
+  void calculateOutputs(BuildContext context, bool isPower, String value) {
+    if (isPower) {
+      context.read<PowerLogic>().changeInput(index!, value);
+      context.read<PowerLogic>().countResults();
+    } else {
+      context.read<VoltageCurrentLogic>().changeInput(index!, value);
+      context.read<VoltageCurrentLogic>().countResults();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -218,9 +171,9 @@ class AmpSuppValueContainer extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               child: AutoSizeText(
                 label!,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: color ?? Colors.white,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -232,16 +185,20 @@ class AmpSuppValueContainer extends StatelessWidget {
                 SizedBox(
                   width: screenWidth! * 0.63,
                   child: TextField(
+                    onChanged: (value) {
+                      calculateOutputs(context, isPower!, value);
+                    },
                     cursorColor: Colors.white,
                     cursorWidth: 1.5,
-                    enabled: enabled,
                     maxLines: 1,
-                    keyboardType: TextInputType.number,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,2}'))
                     ],
                     style: TextStyle(
-                      color: color ?? Colors.white,
+                      color: Colors.white,
                       fontSize: screenWidth! * 0.0375,
                     ),
                     decoration: const InputDecoration(
@@ -260,9 +217,9 @@ class AmpSuppValueContainer extends StatelessWidget {
                     alignment: Alignment.topCenter,
                     child: AutoSizeText(
                       unit!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: color ?? Colors.white,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -272,6 +229,214 @@ class AmpSuppValueContainer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class AmpSuppOutputContainer extends StatelessWidget {
+  final double? screenHeight;
+  final double? screenWidth;
+  final String? label;
+  final String? unit;
+  final int? index;
+  final bool? isPowerContainer;
+
+  const AmpSuppOutputContainer({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+    @required this.label,
+    @required this.unit,
+    @required this.index,
+    this.isPowerContainer = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String output = isPowerContainer!
+        ? context.watch<PowerLogic>().getOutput(index!)
+        : context.watch<VoltageCurrentLogic>().getOutput(index!);
+    return SizedBox(
+      height: screenHeight! * 0.066,
+      width: screenWidth! * 0.84,
+      child: Column(
+        children: [
+          SizedBox(
+            height: screenHeight! * 0.033,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: AutoSizeText(
+                label!,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: customColors.containerResult,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: screenHeight! * 0.033,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: screenWidth! * 0.63,
+                  child: TextField(
+                    enabled: false,
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: customColors.containerResult,
+                      fontSize: screenWidth! * 0.0375,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: output,
+                      hintStyle: TextStyle(
+                        color: customColors.containerResult,
+                        fontSize: screenWidth! * 0.0375,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: screenWidth! * 0.21,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: AutoSizeText(
+                      unit!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: customColors.containerResult,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class VoltCurrContainer extends StatefulWidget {
+  final double? screenHeight;
+  final double? screenWidth;
+  const VoltCurrContainer({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+  }) : super(key: key);
+
+  @override
+  State<VoltCurrContainer> createState() => _VoltCurrContainerState();
+}
+
+class _VoltCurrContainerState extends State<VoltCurrContainer> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: widget.screenHeight! * 0.04),
+        AmpSuppInputContainer(
+          screenHeight: widget.screenHeight!,
+          screenWidth: widget.screenWidth!,
+          label: 'Input',
+          unit: 'V or A',
+          index: 0,
+        ),
+        AmpSuppInputContainer(
+          screenHeight: widget.screenHeight!,
+          screenWidth: widget.screenWidth!,
+          label: 'Output',
+          unit: 'V or A',
+          index: 1,
+        ),
+        AmpSuppOutputContainer(
+          screenHeight: widget.screenHeight!,
+          screenWidth: widget.screenWidth!,
+          label: 'Dimensionless result',
+          unit: 'V/V or A/A',
+          index: 0,
+        ),
+        AmpSuppOutputContainer(
+          screenHeight: widget.screenHeight!,
+          screenWidth: widget.screenWidth!,
+          label: 'dB result',
+          unit: 'dB',
+          index: 1,
+        ),
+        SizedBox(
+          height: widget.screenHeight! * 0.0245,
+          width: widget.screenWidth! * 0.79,
+        ),
+      ],
+    );
+  }
+}
+
+class PowerContainer extends StatefulWidget {
+  final double? screenHeight;
+  final double? screenWidth;
+  const PowerContainer({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+  }) : super(key: key);
+
+  @override
+  State<PowerContainer> createState() => _PowerContainerState();
+}
+
+class _PowerContainerState extends State<PowerContainer> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: widget.screenHeight! * 0.04),
+        AmpSuppInputContainer(
+          screenHeight: widget.screenHeight!,
+          screenWidth: widget.screenWidth!,
+          label: 'Input',
+          unit: 'W',
+          index: 0,
+          isPower: true,
+        ),
+        AmpSuppInputContainer(
+          screenHeight: widget.screenHeight!,
+          screenWidth: widget.screenWidth!,
+          label: 'Output',
+          unit: 'W',
+          index: 1,
+          isPower: true,
+        ),
+        AmpSuppOutputContainer(
+          screenHeight: widget.screenHeight!,
+          screenWidth: widget.screenWidth!,
+          label: 'Dimensionless result',
+          unit: 'W/W',
+          index: 0,
+          isPowerContainer: true,
+        ),
+        AmpSuppOutputContainer(
+          screenHeight: widget.screenHeight!,
+          screenWidth: widget.screenWidth!,
+          label: 'dB result',
+          unit: 'dB',
+          index: 1,
+          isPowerContainer: true,
+        ),
+        SizedBox(
+          height: widget.screenHeight! * 0.0245,
+          width: widget.screenWidth! * 0.79,
+        ),
+      ],
     );
   }
 }

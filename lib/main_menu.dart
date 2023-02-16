@@ -2,6 +2,7 @@ import 'package:electronic_packet_tools/UI/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'Business Logic/amplification_suppression_logic.dart';
 import 'Business Logic/logic_gates_logic.dart';
 import 'UI/UI_recorces/colors.dart';
 
@@ -14,6 +15,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LogicGatesLogic()),
+        ChangeNotifierProvider(create: (_) => VoltageCurrentLogic()),
+        ChangeNotifierProvider(create: (_) => PowerLogic()),
       ],
       child: const ElectronicsPocketTools(),
     ),
