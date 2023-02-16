@@ -14,11 +14,11 @@ class LogicGatesPage extends StatefulWidget {
 }
 
 class _LogicGatesPageState extends State<LogicGatesPage> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   context.read<LogicGatesLogic>().resetOutputs();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    context.read<LogicGatesLogic>().resetOutputs();
+  }
 
   @override
   Widget build(BuildContext context) {

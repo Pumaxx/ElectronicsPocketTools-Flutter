@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:electronic_packet_tools/Business%20Logic/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -24,14 +23,11 @@ class AmpSuppLogic extends ChangeNotifier {
   }
 
   void countResults() {
-    debugPrint("1: ${_inputs[0].isNotEmpty}");
-    debugPrint("2: ${_inputs[1].isNotEmpty}");
-
-    if (_correctInput(_inputs[0]) && _correctInput(_inputs[1])) {
+    if (Utils.correctInput(_inputs[0]) && Utils.correctInput(_inputs[1])) {
       num firstInput = num.parse(_inputs[0]);
       num secondInput = num.parse(_inputs[1]);
 
-      num dimLessResult = firstInput / secondInput;
+      num dimLessResult = secondInput / firstInput;
       num dbResult = _base * log(dimLessResult) / ln10;
 
       _outputs[0] = dimLessResult.toString();
@@ -40,10 +36,6 @@ class AmpSuppLogic extends ChangeNotifier {
       _outputs = ['', ''];
     }
     notifyListeners();
-  }
-
-  bool _correctInput(String input) {
-    return Utils.isNumeric(input) && input.isNotEmpty && num.parse(input) != 0;
   }
 }
 

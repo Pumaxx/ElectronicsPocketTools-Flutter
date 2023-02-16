@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../Business Logic/preferred_values_logic.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
 
@@ -12,6 +14,12 @@ class PreferredValuesPage extends StatefulWidget {
 }
 
 class _PreferredValuesPageState extends State<PreferredValuesPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<PreferredValuesLogic>().resetAll();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -119,12 +127,24 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
                                 height: screenHeight * 0.03,
                                 child: Center(
                                   child: TextField(
+                                    onChanged: (value) {
+                                      context
+                                          .read<PreferredValuesLogic>()
+                                          .setIdealInput(value);
+                                      context
+                                          .read<PreferredValuesLogic>()
+                                          .countPreferredValues();
+                                    },
                                     cursorColor: Colors.white,
                                     cursorWidth: 1.5,
                                     maxLines: 1,
-                                    keyboardType: TextInputType.number,
+                                    keyboardType:
+                                        const TextInputType.numberWithOptions(
+                                            decimal: true),
                                     inputFormatters: <TextInputFormatter>[
-                                      FilteringTextInputFormatter.digitsOnly
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'^\d+\.?\d{0,8}')),
+                                      LengthLimitingTextInputFormatter(10),
                                     ],
                                     style: TextStyle(
                                       color: Colors.white,
@@ -187,13 +207,20 @@ class PreferedValuesContent extends StatelessWidget {
               ['E', 'Value', 'Error Value', 'Err%'],
               isHeader: true,
             ),
-            buildRow(['470', '520', '90%'], eNumber: 'E3'),
-            buildRow(['470', '520', '90%'], eNumber: 'E6'),
-            buildRow(['470', '520', '90%'], eNumber: 'E12'),
-            buildRow(['470', '520', '90%'], eNumber: 'E24'),
-            buildRow(['470', '520', '90%'], eNumber: 'E48'),
-            buildRow(['470', '520', '90%'], eNumber: 'E96'),
-            buildRow(['470', '520', '90%'], eNumber: 'E192'),
+            buildRow(context.watch<PreferredValuesLogic>().e3Row,
+                eNumber: 'E3'),
+            buildRow(context.watch<PreferredValuesLogic>().e6Row,
+                eNumber: 'E6'),
+            buildRow(context.watch<PreferredValuesLogic>().e12Row,
+                eNumber: 'E12'),
+            buildRow(context.watch<PreferredValuesLogic>().e24Row,
+                eNumber: 'E24'),
+            buildRow(context.watch<PreferredValuesLogic>().e48Row,
+                eNumber: 'E48'),
+            buildRow(context.watch<PreferredValuesLogic>().e96Row,
+                eNumber: 'E96'),
+            buildRow(context.watch<PreferredValuesLogic>().e192Row,
+                eNumber: 'E192'),
           ],
         ),
       ),
