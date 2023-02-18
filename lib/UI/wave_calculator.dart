@@ -1,8 +1,12 @@
 import 'package:electronic_packet_tools/main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
+import '../Business Logic/wave_calculator_logic.dart';
 import 'UI_recorces/tool_containers.dart';
 import 'UI_recorces/units.dart';
+
+Units units = Units();
 
 class WaveCalculatorPage extends StatefulWidget {
   const WaveCalculatorPage({super.key});
@@ -13,13 +17,19 @@ class WaveCalculatorPage extends StatefulWidget {
 
 class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<FreqEngLogic>().resetAll();
+    context.read<LenEngLogic>().resetAll();
+    context.read<PeriodLogic>().resetAll();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     final double screenHeight =
         MediaQuery.of(context).size.height - statusBarHeight;
     final double screenWidth = MediaQuery.of(context).size.width;
-
-    Units units = Units();
 
     return Scaffold(
       backgroundColor: customColors.backgroundTool,
@@ -67,35 +77,10 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                               SizedBox(width: screenWidth * 0.035),
                               SizedBox(
                                 width: screenWidth * 0.84,
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: screenHeight * 0.04),
-                                    DropdownContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Wave length',
-                                      value: units.lenght,
-                                      units: units.lenghtUnits,
-                                    ),
-                                    DropdownContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Wave frequency',
-                                      value: units.frequency,
-                                      units: units.frequencyUnits,
-                                    ),
-                                    DropdownContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Wave energy',
-                                      value: units.energy,
-                                      units: units.energyUnits,
-                                    ),
-                                    SizedBox(
-                                      height: screenHeight * 0.0245,
-                                      width: screenWidth * 0.79,
-                                    ),
-                                  ],
+                                child: FreqEng(
+                                  context: context,
+                                  screenHeight: screenHeight,
+                                  screenWidth: screenWidth,
                                 ),
                               ),
                               SizedBox(width: screenWidth * 0.01),
@@ -103,7 +88,7 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                           ),
                         ),
                         TollContainerTitleBar(
-                            title: 'Length | Frequency | Energy',
+                            title: 'Frequency | Energy',
                             screenWidth: screenWidth,
                             screenHeight: screenHeight),
                       ],
@@ -119,37 +104,10 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                               SizedBox(width: screenWidth * 0.035),
                               SizedBox(
                                 width: screenWidth * 0.84,
-                                child: Column(
-                                  children: [
-                                    SizedBox(height: screenHeight * 0.04),
-                                    DropdownContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Wave length',
-                                      value: units.lenght,
-                                      units: units.lenghtUnits,
-                                    ),
-                                    DropdownContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Wave frequency',
-                                      value: units.frequency,
-                                      units: units.frequencyUnits,
-                                    ),
-                                    DropdownContainer(
-                                      screenHeight: screenHeight,
-                                      screenWidth: screenWidth,
-                                      label: 'Result',
-                                      value: units.speed,
-                                      units: units.speedUnits,
-                                      color: customColors.containerResult,
-                                      enabled: false,
-                                    ),
-                                    SizedBox(
-                                      height: screenHeight * 0.0245,
-                                      width: screenWidth * 0.79,
-                                    ),
-                                  ],
+                                child: LenEng(
+                                  context: context,
+                                  screenHeight: screenHeight,
+                                  screenWidth: screenWidth,
                                 ),
                               ),
                               SizedBox(width: screenWidth * 0.01),
@@ -157,7 +115,7 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                           ),
                         ),
                         TollContainerTitleBar(
-                            title: 'Speed',
+                            title: 'Length | Energy',
                             screenWidth: screenWidth,
                             screenHeight: screenHeight),
                       ],
@@ -176,21 +134,15 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                                 child: Column(
                                   children: [
                                     SizedBox(height: screenHeight * 0.04),
-                                    DropdownContainer(
+                                    PeriodInput(
+                                      context: context,
                                       screenHeight: screenHeight,
                                       screenWidth: screenWidth,
-                                      label: 'Wave length',
-                                      value: units.lenght,
-                                      units: units.lenghtUnits,
                                     ),
-                                    DropdownContainer(
+                                    PeriodResult(
+                                      context: context,
                                       screenHeight: screenHeight,
                                       screenWidth: screenWidth,
-                                      label: 'Result',
-                                      value: units.time,
-                                      units: units.timeUnits,
-                                      color: customColors.containerResult,
-                                      enabled: false,
                                     ),
                                     SizedBox(
                                       height: screenHeight * 0.0245,
@@ -218,6 +170,235 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class FreqEng extends StatelessWidget {
+  final BuildContext? context;
+  final double? screenHeight;
+  final double? screenWidth;
+  FreqEng(
+      {Key? key,
+      @required this.screenHeight,
+      @required this.screenWidth,
+      this.context})
+      : super(key: key) {}
+
+  void setLenghtValue(String value) {
+    context!.read<FreqEngLogic>().setLenghtValue(value);
+  }
+
+  void setLenghtMultiplier(String unit) {
+    context!.read<FreqEngLogic>().setLenghtMultiplier(unit);
+  }
+
+  void setFrequencyMultiplier(String unit) {
+    context!.read<FreqEngLogic>().setFrequencyMultiplier(unit);
+  }
+
+  String getFrequency() {
+    return context!.watch<FreqEngLogic>().getFrequency();
+  }
+
+  void setEnergyMultiplier(String unit) {
+    context!.read<FreqEngLogic>().setEnergyMultiplier(unit);
+  }
+
+  String getEnergy() {
+    return context!.watch<FreqEngLogic>().getEnergy();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: screenHeight! * 0.04),
+        DropdownContainer(
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
+          label: 'Wave length',
+          value: units.lenght,
+          units: units.lenghtUnits,
+          getResult: () {},
+          setInputValue: setLenghtValue,
+          setDropdownValue: setLenghtMultiplier,
+        ),
+        DropdownContainer(
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
+          label: 'Wave frequency',
+          value: units.frequency,
+          units: units.frequencyUnits,
+          color: customColors.containerResult,
+          enabled: false,
+          getResult: getFrequency,
+          setDropdownValue: setFrequencyMultiplier,
+        ),
+        DropdownContainer(
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
+          label: 'Wave energy',
+          value: units.energy,
+          units: units.energyUnits,
+          color: customColors.containerResult,
+          enabled: false,
+          getResult: getEnergy,
+          setDropdownValue: setEnergyMultiplier,
+        ),
+        SizedBox(
+          height: screenHeight! * 0.0245,
+        ),
+      ],
+    );
+  }
+}
+
+class LenEng extends StatelessWidget {
+  final BuildContext? context;
+  final double? screenHeight;
+  final double? screenWidth;
+  LenEng(
+      {Key? key,
+      @required this.screenHeight,
+      @required this.screenWidth,
+      this.context})
+      : super(key: key) {}
+
+  void setFrequencyValue(String value) {
+    context!.read<LenEngLogic>().setFrequencyValue(value);
+  }
+
+  void setLenghtMultiplier(String unit) {
+    context!.read<LenEngLogic>().setLenghtMultiplier(unit);
+  }
+
+  void setFrequencyMultiplier(String unit) {
+    context!.read<LenEngLogic>().setFrequencyMultiplier(unit);
+  }
+
+  void setEnergyMultiplier(String unit) {
+    context!.read<LenEngLogic>().setEnergyMultiplier(unit);
+  }
+
+  String getLenght() {
+    return context!.watch<LenEngLogic>().getLenght();
+  }
+
+  String getEnergy() {
+    return context!.watch<LenEngLogic>().getEnergy();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: screenHeight! * 0.04),
+        DropdownContainer(
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
+          label: 'Wave frequency',
+          value: units.lenght,
+          units: units.lenghtUnits,
+          getResult: () {},
+          setInputValue: setFrequencyValue,
+          setDropdownValue: setFrequencyMultiplier,
+        ),
+        DropdownContainer(
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
+          label: 'Wave frequency',
+          value: units.frequency,
+          units: units.frequencyUnits,
+          color: customColors.containerResult,
+          enabled: false,
+          getResult: getLenght,
+          setDropdownValue: setLenghtMultiplier,
+        ),
+        DropdownContainer(
+          screenHeight: screenHeight,
+          screenWidth: screenWidth,
+          label: 'Wave energy',
+          value: units.energy,
+          units: units.energyUnits,
+          color: customColors.containerResult,
+          enabled: false,
+          getResult: getEnergy,
+          setDropdownValue: setEnergyMultiplier,
+        ),
+        SizedBox(
+          height: screenHeight! * 0.0245,
+        ),
+      ],
+    );
+  }
+}
+
+class PeriodInput extends StatelessWidget {
+  final BuildContext? context;
+  final double? screenHeight;
+  final double? screenWidth;
+  const PeriodInput(
+      {Key? key,
+      @required this.screenHeight,
+      @required this.screenWidth,
+      this.context})
+      : super(key: key);
+
+  void setLenghtMultiplier(String unit) {
+    context!.read<PeriodLogic>().setLenghtMultiplier(unit);
+  }
+
+  void setLenghtValue(String value) {
+    context!.read<PeriodLogic>().setLenghtValue(value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownContainer(
+      screenHeight: screenHeight,
+      screenWidth: screenWidth,
+      label: 'Wave length',
+      value: units.lenght,
+      units: units.lenghtUnits,
+      setDropdownValue: setLenghtMultiplier,
+      setInputValue: setLenghtValue,
+      getResult: () {},
+    );
+  }
+}
+
+class PeriodResult extends StatelessWidget {
+  final BuildContext? context;
+  final double? screenHeight;
+  final double? screenWidth;
+  const PeriodResult(
+      {Key? key,
+      @required this.screenHeight,
+      @required this.screenWidth,
+      this.context})
+      : super(key: key);
+
+  void setPeriodMultiplier(String unit) {
+    context!.read<PeriodLogic>().setPeriodMultiplier(unit);
+  }
+
+  String getPeriod() {
+    return context!.watch<PeriodLogic>().getPeriod();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownContainer(
+      screenHeight: screenHeight,
+      screenWidth: screenWidth,
+      label: 'Result',
+      value: units.time,
+      units: units.timeUnits,
+      color: customColors.containerResult,
+      enabled: false,
+      setDropdownValue: setPeriodMultiplier,
+      getResult: getPeriod,
     );
   }
 }

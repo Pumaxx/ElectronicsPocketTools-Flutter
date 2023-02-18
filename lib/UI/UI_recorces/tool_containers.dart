@@ -77,19 +77,24 @@ class DropdownContainer extends StatefulWidget {
   final List<String>? units;
   final Color? color;
   final bool? enabled;
-  final String? hint;
 
-  const DropdownContainer(
-      {Key? key,
-      @required this.screenHeight,
-      @required this.screenWidth,
-      @required this.label,
-      @required this.value,
-      @required this.units,
-      this.color,
-      this.enabled = true,
-      this.hint = ''})
-      : super(key: key);
+  final Function(String value)? setInputValue;
+  final Function(String value)? setDropdownValue;
+  final Function()? getResult;
+
+  const DropdownContainer({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+    @required this.label,
+    @required this.value,
+    @required this.units,
+    this.color,
+    this.enabled = true,
+    this.setInputValue,
+    this.setDropdownValue,
+    @required this.getResult,
+  }) : super(key: key);
   @override
   State<DropdownContainer> createState() => _DropdownContainerState();
 }
@@ -130,20 +135,34 @@ class _DropdownContainerState extends State<DropdownContainer> {
                   SizedBox(
                     height: widget.screenHeight! * 0.035,
                     child: TextField(
+                      onChanged: widget.setInputValue != null
+                          ? (String value) {
+                              widget.setInputValue!(value);
+                            }
+                          : (String value) {},
                       enabled: widget.enabled,
                       maxLines: 1,
                       cursorColor: Colors.white,
                       cursorWidth: 1.5,
-                      keyboardType: TextInputType.number,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
                       inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'^\d+\.?\d{0,25}'))
                       ],
                       style: TextStyle(
                         color: widget.color ?? Colors.white,
                         fontSize: widget.screenWidth! * 0.0375,
                       ),
                       decoration: InputDecoration(
-                        hintText: widget.hint,
+                        hintText: widget.getResult!(),
+                        hintStyle: TextStyle(
+                          color: widget.color ?? Colors.grey,
+                          fontSize: widget.screenWidth! * 0.0375,
+                          fontWeight: widget.enabled == true
+                              ? FontWeight.normal
+                              : FontWeight.bold,
+                        ),
                         enabledBorder: const UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.white),
                         ),
@@ -202,6 +221,7 @@ class _DropdownContainerState extends State<DropdownContainer> {
                               setState(
                                 () {
                                   dropdownvalue = newValue!;
+                                  widget.setDropdownValue!(newValue);
                                 },
                               );
                             },

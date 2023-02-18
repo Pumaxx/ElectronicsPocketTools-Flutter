@@ -1,3 +1,5 @@
+import 'dart:math';
+
 const String AND_GATE = 'AND';
 const String NAND_GATE = 'NAND';
 const String OR_GATE = 'OR';
@@ -38,3 +40,18 @@ const List<num> E192Series =  [100.0, 101.0, 102.0, 104.0, 105.0, 106.0, 107.0, 
                                649.0, 657.0, 665.0, 673.0, 681.0, 690.0, 698.0, 706.0, 715.0, 723.0, 732.0, 741.0, 
                                750.0, 759.0, 768.0, 777.0, 787.0, 796.0, 806.0, 816.0, 825.0, 835.0, 845.0, 856.0, 
                                866.0, 876.0, 887.0, 898.0, 909.0, 920.0, 931.0, 942.0, 953.0, 965.0, 976.0, 988.0];
+
+final num nano = pow(10, -9);
+final num micro = pow(10, -6);
+final num milli = pow(10, -3);
+final num cent =  pow(10, -2);
+const num normalMultiplier = 1.0;
+final num kilo =  pow(10, 3);
+final num mega =  pow(10, 6);
+final num giga =  pow(10, 9);
+final num tera =  pow(10, 12);
+const num msTokmh = 3.6;
+final num msTocs = 1/cent;
+const num speedOfLight = 299792458.0;
+final num planckConstant = 6.6261 * pow(10, -34);
+final num toElectronvolt = 6.241509 * pow(10, 18);

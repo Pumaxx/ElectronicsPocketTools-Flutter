@@ -536,7 +536,9 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                         label: 'Input',
                                         value: units.resistance,
                                         units: units.resistanceUnits,
-                                        hint: 'Number between 0-99',
+                                        getResult: () {
+                                          return 'Number between 0-99';
+                                        },
                                       ),
                                     ),
                                     SizedBox(width: screenWidth * 0.005),
