@@ -32,13 +32,13 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
                   SizedBox(width: screenWidth * 0.2),
                   SizedBox(
                     width: screenWidth * 0.6,
-                    child: const Center(
+                    child: Center(
                       child: AutoSizeText(
                         'Finite impulse response filters parallel / series realization',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
+                          fontSize: screenHeight * 0.05,
                         ),
                         maxLines: 2,
                       ),
@@ -206,7 +206,7 @@ class _ResultPanelState extends State<ResultPanel> {
                 SizedBox(
                   height: widget.screenHeight! * 0.045,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(width: widget.screenWidth! * 0.2),
                       Radio(

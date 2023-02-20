@@ -45,13 +45,13 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                   SizedBox(width: screenWidth * 0.2),
                   SizedBox(
                     width: screenWidth * 0.6,
-                    child: const Center(
+                    child: Center(
                       child: AutoSizeText(
                         'Electromagnetic wave parameters',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
+                          fontSize: screenHeight * 0.05,
                         ),
                         maxLines: 2,
                       ),
@@ -298,8 +298,8 @@ class LenEng extends StatelessWidget {
           screenHeight: screenHeight,
           screenWidth: screenWidth,
           label: 'Wave frequency',
-          value: units.lenght,
-          units: units.lenghtUnits,
+          value: units.frequency,
+          units: units.frequencyUnits,
           getResult: () {},
           setInputValue: setFrequencyValue,
           setDropdownValue: setFrequencyMultiplier,
@@ -307,9 +307,9 @@ class LenEng extends StatelessWidget {
         DropdownContainer(
           screenHeight: screenHeight,
           screenWidth: screenWidth,
-          label: 'Wave frequency',
-          value: units.frequency,
-          units: units.frequencyUnits,
+          label: 'Wave length',
+          value: units.lenght,
+          units: units.lenghtUnits,
           color: customColors.containerResult,
           enabled: false,
           getResult: getLenght,

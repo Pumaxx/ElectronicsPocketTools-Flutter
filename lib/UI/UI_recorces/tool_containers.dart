@@ -61,7 +61,10 @@ class TollContainerTitleBar extends StatelessWidget {
           child: AutoSizeText(
             title!,
             maxLines: 1,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: screenHeight! * 0.02,
+            ),
           ),
         ),
       ),
@@ -128,6 +131,7 @@ class _DropdownContainerState extends State<DropdownContainer> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: widget.color ?? Colors.white,
+                          fontSize: widget.screenHeight! * 0.019,
                         ),
                       ),
                     ),
@@ -152,13 +156,13 @@ class _DropdownContainerState extends State<DropdownContainer> {
                       ],
                       style: TextStyle(
                         color: widget.color ?? Colors.white,
-                        fontSize: widget.screenWidth! * 0.0375,
+                        fontSize: widget.screenHeight! * 0.019,
                       ),
                       decoration: InputDecoration(
                         hintText: widget.getResult!(),
                         hintStyle: TextStyle(
                           color: widget.color ?? Colors.grey,
-                          fontSize: widget.screenWidth! * 0.0375,
+                          fontSize: widget.screenHeight! * 0.019,
                           fontWeight: widget.enabled == true
                               ? FontWeight.normal
                               : FontWeight.bold,
@@ -212,7 +216,7 @@ class _DropdownContainerState extends State<DropdownContainer> {
                                   unit,
                                   style: TextStyle(
                                     color: customColors.main,
-                                    fontSize: widget.screenWidth! * 0.0375,
+                                    fontSize: widget.screenHeight! * 0.019,
                                   ),
                                 ),
                               );

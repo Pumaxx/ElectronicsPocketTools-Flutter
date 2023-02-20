@@ -41,13 +41,13 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
                   SizedBox(width: screenWidth * 0.2),
                   SizedBox(
                     width: screenWidth * 0.6,
-                    child: const Center(
+                    child: Center(
                       child: AutoSizeText(
                         'Preferred Values Calculator',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
+                          fontSize: screenHeight * 0.05,
                         ),
                         maxLines: 2,
                       ),
@@ -113,12 +113,14 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
                               SizedBox(width: screenWidth * 0.13),
                               SizedBox(
                                 width: screenWidth * 0.32,
-                                child: const Center(
+                                child: Center(
                                   child: AutoSizeText(
                                     'Enter Ideal Value',
                                     maxLines: 1,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: screenHeight * 0.019,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -148,7 +150,7 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
                                     ],
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: screenWidth * 0.0375,
+                                      fontSize: screenHeight * 0.019,
                                     ),
                                     decoration: const InputDecoration(
                                       enabledBorder: UnderlineInputBorder(

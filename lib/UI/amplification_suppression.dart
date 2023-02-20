@@ -44,13 +44,13 @@ class _AmplificationSuppressionPageState
                   SizedBox(width: screenWidth * 0.2),
                   SizedBox(
                     width: screenWidth * 0.6,
-                    child: const Center(
+                    child: Center(
                       child: AutoSizeText(
                         'Amplification and Suppression calculator',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
+                          fontSize: screenHeight * 0.05,
                         ),
                         maxLines: 2,
                       ),
@@ -171,9 +171,10 @@ class AmpSuppInputContainer extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               child: AutoSizeText(
                 label!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
+                  fontSize: screenHeight! * 0.019,
                 ),
               ),
             ),
@@ -199,7 +200,7 @@ class AmpSuppInputContainer extends StatelessWidget {
                     ],
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenWidth! * 0.0375,
+                      fontSize: screenHeight! * 0.019,
                     ),
                     decoration: const InputDecoration(
                       enabledBorder: UnderlineInputBorder(
@@ -220,98 +221,6 @@ class AmpSuppInputContainer extends StatelessWidget {
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AmpSuppOutputContainer extends StatelessWidget {
-  final double? screenHeight;
-  final double? screenWidth;
-  final String? label;
-  final String? unit;
-  final int? index;
-  final bool? isPowerContainer;
-
-  const AmpSuppOutputContainer({
-    Key? key,
-    @required this.screenHeight,
-    @required this.screenWidth,
-    @required this.label,
-    @required this.unit,
-    @required this.index,
-    this.isPowerContainer = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    String output = isPowerContainer!
-        ? context.watch<PowerLogic>().getOutput(index!)
-        : context.watch<VoltageCurrentLogic>().getOutput(index!);
-    return SizedBox(
-      height: screenHeight! * 0.066,
-      width: screenWidth! * 0.84,
-      child: Column(
-        children: [
-          SizedBox(
-            height: screenHeight! * 0.033,
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: AutoSizeText(
-                label!,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: customColors.containerResult,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: screenHeight! * 0.033,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: screenWidth! * 0.63,
-                  child: TextField(
-                    enabled: false,
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: customColors.containerResult,
-                      fontSize: screenWidth! * 0.0375,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: output,
-                      hintStyle: TextStyle(
-                        color: customColors.containerResult,
-                        fontSize: screenWidth! * 0.0375,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      enabledBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: const UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: screenWidth! * 0.21,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: AutoSizeText(
-                      unit!,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: customColors.containerResult,
                       ),
                     ),
                   ),
@@ -437,6 +346,100 @@ class _PowerContainerState extends State<PowerContainer> {
           width: widget.screenWidth! * 0.79,
         ),
       ],
+    );
+  }
+}
+
+class AmpSuppOutputContainer extends StatelessWidget {
+  final double? screenHeight;
+  final double? screenWidth;
+  final String? label;
+  final String? unit;
+  final int? index;
+  final bool? isPowerContainer;
+
+  const AmpSuppOutputContainer({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+    @required this.label,
+    @required this.unit,
+    @required this.index,
+    this.isPowerContainer = false,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String output = isPowerContainer!
+        ? context.watch<PowerLogic>().getOutput(index!)
+        : context.watch<VoltageCurrentLogic>().getOutput(index!);
+    return SizedBox(
+      height: screenHeight! * 0.066,
+      width: screenWidth! * 0.84,
+      child: Column(
+        children: [
+          SizedBox(
+            height: screenHeight! * 0.033,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: AutoSizeText(
+                label!,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: customColors.containerResult,
+                  fontSize: screenHeight! * 0.019,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: screenHeight! * 0.033,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: screenWidth! * 0.63,
+                  child: TextField(
+                    enabled: false,
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: customColors.containerResult,
+                      fontSize: screenHeight! * 0.019,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: output,
+                      hintStyle: TextStyle(
+                        color: customColors.containerResult,
+                        fontSize: screenHeight! * 0.019,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      enabledBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: screenWidth! * 0.21,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: AutoSizeText(
+                      unit!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: customColors.containerResult,
+                        fontSize: screenHeight! * 0.019,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

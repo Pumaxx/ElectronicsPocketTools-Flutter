@@ -70,13 +70,13 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                     children: [
                       SizedBox(
                         width: screenWidth * 0.6,
-                        child: const Center(
+                        child: Center(
                           child: AutoSizeText(
                             'Resistor recognition',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 25.0,
+                              fontSize: screenHeight * 0.05,
                             ),
                             maxLines: 1,
                           ),
@@ -134,7 +134,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 22.0,
+                              fontSize: screenHeight * 0.029,
                               color: customColors.containerResult,
                             ),
                             maxLines: 1,

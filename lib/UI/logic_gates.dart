@@ -154,10 +154,13 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
                             child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: screenWidth * 0.03),
-                              child: const AutoSizeText(
+                              child: AutoSizeText(
                                 'Logic Gates Simulator',
                                 maxLines: 1,
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: screenHeight * 0.019,
+                                ),
                               ),
                             ),
                           ),

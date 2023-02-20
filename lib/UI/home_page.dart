@@ -37,13 +37,13 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(width: screenWidth * 0.25),
                   SizedBox(
                     width: screenWidth * 0.5,
-                    child: const Center(
+                    child: Center(
                       child: AutoSizeText(
                         'Electronics Pocket Tools',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
+                          fontSize: screenHeight * 0.05,
                         ),
                         maxLines: 2,
                       ),
