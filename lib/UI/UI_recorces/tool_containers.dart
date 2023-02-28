@@ -80,6 +80,7 @@ class DropdownContainer extends StatefulWidget {
   final List<String>? units;
   final Color? color;
   final bool? enabled;
+  final List<TextInputFormatter>? textInputFormatter;
 
   final Function(String value)? setInputValue;
   final Function(String value)? setDropdownValue;
@@ -96,6 +97,7 @@ class DropdownContainer extends StatefulWidget {
     this.enabled = true,
     this.setInputValue,
     this.setDropdownValue,
+    this.textInputFormatter,
     @required this.getResult,
   }) : super(key: key);
   @override
@@ -150,10 +152,11 @@ class _DropdownContainerState extends State<DropdownContainer> {
                       cursorWidth: 1.5,
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'^\d+\.?\d{0,25}'))
-                      ],
+                      inputFormatters: widget.textInputFormatter ??
+                          <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d+\.?\d{0,25}'))
+                          ],
                       style: TextStyle(
                         color: widget.color ?? Colors.white,
                         fontSize: widget.screenHeight! * 0.019,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../Business Logic/resistor_recognition_logic.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
 import 'UI_recorces/units.dart';
@@ -15,34 +18,22 @@ class ResistorRecognitionPage extends StatefulWidget {
 class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
   @override
   void initState() {
-    for (int i = 0; i < firstStripeColors.length - 1; i++) {
-      firstStripeColors[i] = Colors.black;
-      secondStripeColors[i] = Colors.black;
-    }
-    firstStripeColors[3] = customColors.brown;
-    secondStripeColors[3] = customColors.brown;
     super.initState();
+    context.read<ResitoRecogntionLogic>().resetAll();
   }
 
-  List<Color> firstStripeColors = [
-    Colors.black,
-    Colors.black,
-    Colors.black,
-    customColors.brown,
-  ];
+  void calculate(int index, Color firstcolor, Color secondColor, String text) {
+    context
+        .read<ResitoRecogntionLogic>()
+        .calculate(index, firstcolor, secondColor, text);
+  }
 
-  List<Color> secondStripeColors = [
-    Colors.black,
-    Colors.black,
-    Colors.black,
-    customColors.brown,
-  ];
+  void setDropdownMultiplyer(String unit) {
+    context.read<ResitoRecogntionLogic>().setDropdownMultiplyer(unit);
+  }
 
-  void setStripeColor(int id, Color color, Color secondColor) {
-    setState(() {
-      firstStripeColors[id] = color;
-      secondStripeColors[id] = secondColor;
-    });
+  void inputValue(String value) {
+    context.read<ResitoRecogntionLogic>().inputValue(value);
   }
 
   @override
@@ -99,26 +90,42 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                 SizedBox(width: screenWidth * 0.16),
                                 ResistorStripe(
                                   screenWidth: screenWidth,
-                                  color: firstStripeColors[0],
-                                  secondColor: secondStripeColors[0],
+                                  color: context
+                                      .watch<ResitoRecogntionLogic>()
+                                      .getStripeFirstColor(index: 0),
+                                  secondColor: context
+                                      .watch<ResitoRecogntionLogic>()
+                                      .getStripeSecondColor(index: 0),
                                 ),
                                 SizedBox(width: screenWidth * 0.04),
                                 ResistorStripe(
                                   screenWidth: screenWidth,
-                                  color: firstStripeColors[1],
-                                  secondColor: secondStripeColors[1],
+                                  color: context
+                                      .watch<ResitoRecogntionLogic>()
+                                      .getStripeFirstColor(index: 1),
+                                  secondColor: context
+                                      .watch<ResitoRecogntionLogic>()
+                                      .getStripeSecondColor(index: 1),
                                 ),
                                 SizedBox(width: screenWidth * 0.04),
                                 ResistorStripe(
                                   screenWidth: screenWidth,
-                                  color: firstStripeColors[2],
-                                  secondColor: secondStripeColors[2],
+                                  color: context
+                                      .watch<ResitoRecogntionLogic>()
+                                      .getStripeFirstColor(index: 2),
+                                  secondColor: context
+                                      .watch<ResitoRecogntionLogic>()
+                                      .getStripeSecondColor(index: 2),
                                 ),
                                 SizedBox(width: screenWidth * 0.08),
                                 ResistorStripe(
                                   screenWidth: screenWidth,
-                                  color: firstStripeColors[3],
-                                  secondColor: secondStripeColors[3],
+                                  color: context
+                                      .watch<ResitoRecogntionLogic>()
+                                      .getStripeFirstColor(index: 3),
+                                  secondColor: context
+                                      .watch<ResitoRecogntionLogic>()
+                                      .getStripeSecondColor(index: 3),
                                 ),
                               ],
                             ),
@@ -130,7 +137,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                         height: screenHeight * 0.04,
                         child: Center(
                           child: AutoSizeText(
-                            '0Ω  ±1%',
+                            context.watch<ResitoRecogntionLogic>().result,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -177,21 +184,21 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 id: 0,
                                                 color: Colors.black,
                                                 text: '0',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 1,
                                                 color: Colors.black,
                                                 text: '0',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 2,
                                                 color: Colors.black,
                                                 text: '1 Ω',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
@@ -208,28 +215,28 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 id: 0,
                                                 color: customColors.brown,
                                                 text: '1',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 1,
                                                 color: customColors.brown,
                                                 text: '1',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 2,
                                                 color: customColors.brown,
                                                 text: '10 Ω',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 3,
                                                 color: customColors.brown,
                                                 text: '± 1%',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                             ],
                                           ),
@@ -240,28 +247,28 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 id: 0,
                                                 color: customColors.red,
                                                 text: '2',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 1,
                                                 color: customColors.red,
                                                 text: '2',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 2,
                                                 color: customColors.red,
                                                 text: '100 Ω',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 3,
                                                 color: customColors.red,
                                                 text: '± 2%',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                             ],
                                           ),
@@ -272,21 +279,21 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 id: 0,
                                                 color: customColors.orange,
                                                 text: '3',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 1,
                                                 color: customColors.orange,
                                                 text: '3',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 2,
                                                 color: customColors.orange,
                                                 text: '1 kΩ',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
@@ -304,7 +311,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 color: customColors.yellow,
                                                 text: '4',
                                                 lightBackground: true,
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
@@ -312,7 +319,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 color: customColors.yellow,
                                                 text: '4',
                                                 lightBackground: true,
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
@@ -320,7 +327,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 color: customColors.yellow,
                                                 text: '10 kΩ',
                                                 lightBackground: true,
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
@@ -337,28 +344,28 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 id: 0,
                                                 color: customColors.green,
                                                 text: '5',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 1,
                                                 color: customColors.green,
                                                 text: '5',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 2,
                                                 color: customColors.green,
                                                 text: '100 kΩ',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 3,
                                                 color: customColors.green,
                                                 text: '± 0.50%',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                             ],
                                           ),
@@ -369,28 +376,28 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 id: 0,
                                                 color: customColors.blue,
                                                 text: '6',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 1,
                                                 color: customColors.blue,
                                                 text: '6',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 2,
                                                 color: customColors.blue,
                                                 text: '1 MΩ',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 3,
                                                 color: customColors.blue,
                                                 text: '± 0.25%',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                             ],
                                           ),
@@ -401,28 +408,28 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 id: 0,
                                                 color: customColors.purple,
                                                 text: '7',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 1,
                                                 color: customColors.purple,
                                                 text: '7',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 2,
                                                 color: customColors.purple,
                                                 text: '10 MΩ',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 3,
                                                 color: customColors.purple,
                                                 text: '± 0.10%',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                             ],
                                           ),
@@ -433,27 +440,27 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 id: 0,
                                                 color: customColors.grey,
                                                 text: '8',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 1,
                                                 color: customColors.grey,
                                                 text: '8',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 2,
                                                 color: customColors.grey,
                                                 text: '100 MΩ',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 3,
-                                                text: '± 0.5%',
-                                                notifyParent: setStripeColor,
+                                                text: '± 5%',
+                                                calculate: calculate,
                                                 color: const Color(0xFFf37835),
                                                 secondColor:
                                                     const Color(0xFFfcd453),
@@ -468,7 +475,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 color: Colors.white,
                                                 text: '9',
                                                 lightBackground: true,
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
@@ -476,7 +483,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 color: Colors.white,
                                                 text: '9',
                                                 lightBackground: true,
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
@@ -484,13 +491,13 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                                 color: Colors.white,
                                                 text: '1 GΩ',
                                                 lightBackground: true,
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                               ),
                                               ResistorButton(
                                                 screenHeight: screenHeight,
                                                 id: 3,
                                                 text: '± 10%',
-                                                notifyParent: setStripeColor,
+                                                calculate: calculate,
                                                 color: const Color(0xFF3b3b3b),
                                                 secondColor:
                                                     const Color(0xFFfafafa),
@@ -536,9 +543,15 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                                         label: 'Input',
                                         value: units.resistance,
                                         units: units.resistanceUnits,
+                                        textInputFormatter: <
+                                            TextInputFormatter>[
+                                          LengthLimitingTextInputFormatter(2),
+                                        ],
                                         getResult: () {
                                           return 'Number between 0-99';
                                         },
+                                        setDropdownValue: setDropdownMultiplyer,
+                                        setInputValue: inputValue,
                                       ),
                                     ),
                                     SizedBox(width: screenWidth * 0.005),
@@ -600,7 +613,8 @@ class ResistorStripe extends StatelessWidget {
 class ResistorButton extends StatefulWidget {
   final double? screenHeight;
   final int? id;
-  final Function(int id, Color color, Color secondColor)? notifyParent;
+  final Function(int index, Color color, Color secondColor, String text)?
+      calculate;
   final Color? color;
   final Color? secondColor;
   final String? text;
@@ -610,7 +624,7 @@ class ResistorButton extends StatefulWidget {
     Key? key,
     @required this.screenHeight,
     @required this.id,
-    this.notifyParent,
+    this.calculate,
     @required this.color,
     this.secondColor,
     this.text = '',
@@ -642,10 +656,8 @@ class _ResistorButtonState extends State<ResistorButton> {
       child: TextButton(
         onPressed: widget.enabled!
             ? () {
-                setState(() {
-                  widget.notifyParent!(
-                      widget.id!, widget.color!, gradientColor);
-                });
+                widget.calculate!(
+                    widget.id!, widget.color!, gradientColor, widget.text!);
               }
             : null,
         style: ElevatedButton.styleFrom(

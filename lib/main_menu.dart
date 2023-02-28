@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'Business Logic/amplification_suppression_logic.dart';
 import 'Business Logic/logic_gates_logic.dart';
 import 'Business Logic/preferred_values_logic.dart';
+import 'Business Logic/resistor_recognition_logic.dart';
 import 'Business Logic/wave_calculator_logic.dart';
 import 'UI/UI_recorces/colors.dart';
 import 'UI/wave_calculator.dart';
@@ -24,6 +25,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => FreqEngLogic()),
         ChangeNotifierProvider(create: (_) => LenEngLogic()),
         ChangeNotifierProvider(create: (_) => PeriodLogic()),
+        ChangeNotifierProvider(create: (_) => ResitoRecogntionLogic()),
       ],
       child: const ElectronicsPocketTools(),
     ),

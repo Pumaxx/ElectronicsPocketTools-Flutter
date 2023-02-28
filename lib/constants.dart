@@ -55,3 +55,16 @@ final num msTocs = 1/cent;
 const num speedOfLight = 299792458.0;
 final num planckConstant = 6.6261 * pow(10, -34);
 final num toElectronvolt = 6.241509 * pow(10, 18);
+
+final Map<String, int> resitanceButtonsValues = {
+  '1 Ω' : 1,
+  '10 Ω' : 10,
+  '100 Ω' : 100,
+  '1 kΩ' : 1000,
+  '10 kΩ' : 10000,
+  '100 kΩ' : 100000,
+  '1 MΩ' : 1000000,
+  '10 MΩ' : 10000000,
+  '100 MΩ' : 100000000,
+  '1 GΩ' : 1000000000,
+};
