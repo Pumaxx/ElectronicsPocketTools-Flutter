@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
+import '../Business Logic/digital_filters_logic.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
 
@@ -11,6 +13,20 @@ class DigitalFiltersPage extends StatefulWidget {
 }
 
 class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<DigitalFiltersLogic>().resetAll();
+  }
+
+  void setFirstParameters(String params) {
+    context.read<DigitalFiltersLogic>().setFirstParameters(params);
+  }
+
+  void setSecondParameters(String params) {
+    context.read<DigitalFiltersLogic>().setSecondParameters(params);
+  }
+
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -62,6 +78,7 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
                           child: InputContainer(
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
+                            setParams: setFirstParameters,
                           ),
                         ),
                         TollContainerTitleBar(
@@ -79,6 +96,7 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
                           child: InputContainer(
                             screenHeight: screenHeight,
                             screenWidth: screenWidth,
+                            setParams: setSecondParameters,
                           ),
                         ),
                         TollContainerTitleBar(
@@ -120,9 +138,13 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
 class InputContainer extends StatelessWidget {
   final double? screenHeight;
   final double? screenWidth;
+  final Function(String value)? setParams;
 
   const InputContainer(
-      {super.key, @required this.screenHeight, @required this.screenWidth});
+      {super.key,
+      @required this.screenHeight,
+      @required this.screenWidth,
+      this.setParams});
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +161,9 @@ class InputContainer extends StatelessWidget {
                 SizedBox(
                   width: screenWidth! * 0.7875,
                   child: TextField(
+                    onChanged: (value) {
+                      setParams!(value);
+                    },
                     autocorrect: false,
                     enableSuggestions: false,
                     maxLines: null,
@@ -179,19 +204,17 @@ class InputContainer extends StatelessWidget {
 class ResultPanel extends StatefulWidget {
   final double? screenHeight;
   final double? screenWidth;
-  final String? text;
-  const ResultPanel(
-      {super.key,
-      @required this.screenHeight,
-      @required this.screenWidth,
-      this.text = ''});
+  const ResultPanel({
+    super.key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+  });
 
   @override
   State<ResultPanel> createState() => _ResultPanelState();
 }
 
 class _ResultPanelState extends State<ResultPanel> {
-  int radioValue = 1;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -210,15 +233,18 @@ class _ResultPanelState extends State<ResultPanel> {
                     children: [
                       SizedBox(width: widget.screenWidth! * 0.2),
                       Radio(
-                          fillColor: MaterialStateColor.resolveWith(
-                              (states) => customColors.main),
-                          value: 1,
-                          groupValue: radioValue,
-                          onChanged: (value) {
-                            setState(() {
-                              radioValue = value!;
-                            });
-                          }),
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => customColors.main),
+                        value: 1,
+                        groupValue: context
+                            .watch<DigitalFiltersLogic>()
+                            .radioGroupValue,
+                        onChanged: (value) {
+                          context
+                              .read<DigitalFiltersLogic>()
+                              .switchRadio(value!);
+                        },
+                      ),
                       AutoSizeText(
                         'Parallel',
                         style: TextStyle(
@@ -227,15 +253,18 @@ class _ResultPanelState extends State<ResultPanel> {
                             color: Colors.white),
                       ),
                       Radio(
-                          fillColor: MaterialStateColor.resolveWith(
-                              (states) => customColors.main),
-                          value: 2,
-                          groupValue: radioValue,
-                          onChanged: (value) {
-                            setState(() {
-                              radioValue = value!;
-                            });
-                          }),
+                        fillColor: MaterialStateColor.resolveWith(
+                            (states) => customColors.main),
+                        value: 2,
+                        groupValue: context
+                            .watch<DigitalFiltersLogic>()
+                            .radioGroupValue,
+                        onChanged: (value) {
+                          context
+                              .read<DigitalFiltersLogic>()
+                              .switchRadio(value!);
+                        },
+                      ),
                       AutoSizeText(
                         'Series',
                         style: TextStyle(
@@ -264,7 +293,9 @@ class _ResultPanelState extends State<ResultPanel> {
                           ),
                         ),
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.read<DigitalFiltersLogic>().calculate();
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.transparent,
                             foregroundColor: Colors.white,
@@ -291,9 +322,15 @@ class _ResultPanelState extends State<ResultPanel> {
                       SizedBox(
                         width: widget.screenWidth! * 0.838,
                         child: AutoSizeText(
-                          widget.text!,
+                          context.watch<DigitalFiltersLogic>().resultText,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: context
+                                      .watch<DigitalFiltersLogic>()
+                                      .errorColor
+                                  ? customColors.errorColor
+                                  : Colors.white),
                         ),
                       ),
                       SizedBox(width: widget.screenWidth! * 0.025),
