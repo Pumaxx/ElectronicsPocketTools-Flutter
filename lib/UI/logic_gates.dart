@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
+import 'package:electronic_packet_tools/Business%20Logic/ad_helper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class LogicGatesPage extends StatefulWidget {
   const LogicGatesPage({super.key});
@@ -14,9 +16,38 @@ class LogicGatesPage extends StatefulWidget {
 }
 
 class _LogicGatesPageState extends State<LogicGatesPage> {
+  late BannerAd _bottomBannerAd;
+  bool _idAdLoaded = false;
+
+  void _createdBottomBannerAd() {
+    _bottomBannerAd = BannerAd(
+      size: AdSize.fluid,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _idAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+      request: AdRequest(),
+    );
+    _bottomBannerAd.load();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bottomBannerAd.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    _createdBottomBannerAd();
     context.read<LogicGatesLogic>().resetOutputs();
   }
 
@@ -33,7 +64,7 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
         top: true,
         child: ListView(
           children: [
-            SizedBox(height: screenHeight * 0.07),
+            SizedBox(height: screenHeight * 0.045),
             Row(
               children: [
                 SizedBox(width: screenWidth * 0.05),
@@ -172,7 +203,11 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
                 SizedBox(width: screenWidth * 0.05),
               ],
             ),
-            SizedBox(height: screenHeight * 0.05),
+            SizedBox(height: screenHeight * 0.005),
+            Container(
+              height: screenHeight * 0.07,
+              child: AdWidget(ad: _bottomBannerAd),
+            ),
           ],
         ),
       ),

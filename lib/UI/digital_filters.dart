@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../Business Logic/digital_filters_logic.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
+import 'package:electronic_packet_tools/Business%20Logic/ad_helper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class DigitalFiltersPage extends StatefulWidget {
   const DigitalFiltersPage({super.key});
@@ -13,9 +15,38 @@ class DigitalFiltersPage extends StatefulWidget {
 }
 
 class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
+  late BannerAd _bottomBannerAd;
+  bool _idAdLoaded = false;
+
+  void _createdBottomBannerAd() {
+    _bottomBannerAd = BannerAd(
+      size: AdSize.fluid,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _idAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+      request: AdRequest(),
+    );
+    _bottomBannerAd.load();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bottomBannerAd.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    _createdBottomBannerAd();
     context.read<DigitalFiltersLogic>().resetAll();
   }
 
@@ -40,14 +71,14 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
         top: true,
         child: ListView(
           children: [
-            SizedBox(height: screenHeight * 0.07),
+            SizedBox(height: screenHeight * 0.05),
             SizedBox(
               height: screenHeight * 0.0725,
               child: Row(
                 children: [
-                  SizedBox(width: screenWidth * 0.2),
+                  SizedBox(width: screenWidth * 0.15),
                   SizedBox(
-                    width: screenWidth * 0.6,
+                    width: screenWidth * 0.7,
                     child: Center(
                       child: AutoSizeText(
                         'Finite impulse response filters parallel / series realization',
@@ -60,11 +91,11 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: screenWidth * 0.2),
+                  SizedBox(width: screenWidth * 0.15),
                 ],
               ),
             ),
-            SizedBox(height: screenHeight * 0.05),
+            SizedBox(height: screenHeight * 0.03),
             Row(
               children: [
                 SizedBox(width: screenWidth * 0.05),
@@ -127,7 +158,11 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
                 SizedBox(width: screenWidth * 0.05),
               ],
             ),
-            SizedBox(height: screenHeight * 0.04),
+            SizedBox(height: screenHeight * 0.012),
+            Container(
+              height: screenHeight * 0.07,
+              child: AdWidget(ad: _bottomBannerAd),
+            ),
           ],
         ),
       ),
@@ -164,8 +199,8 @@ class InputContainer extends StatelessWidget {
                     onChanged: (value) {
                       setParams!(value);
                     },
-                    autocorrect: false,
-                    enableSuggestions: false,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
                     maxLines: null,
                     expands: true,
                     cursorColor: Colors.white,
@@ -318,6 +353,7 @@ class ResultPanel extends StatelessWidget {
                           context.watch<DigitalFiltersLogic>().resultText,
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                              fontSize: screenHeight! * 0.021,
                               fontWeight: FontWeight.w600,
                               color: context
                                       .watch<DigitalFiltersLogic>()

@@ -1,6 +1,7 @@
 import 'package:electronic_packet_tools/UI/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'Business Logic/amplification_suppression_logic.dart';
 import 'Business Logic/digital_filters_logic.dart';
@@ -9,12 +10,12 @@ import 'Business Logic/preferred_values_logic.dart';
 import 'Business Logic/resistor_recognition_logic.dart';
 import 'Business Logic/wave_calculator_logic.dart';
 import 'UI/UI_recorces/colors.dart';
-import 'UI/wave_calculator.dart';
 
 const customColors = CustomColors();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     MultiProvider(

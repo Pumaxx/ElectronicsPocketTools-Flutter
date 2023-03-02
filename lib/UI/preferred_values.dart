@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../Business Logic/preferred_values_logic.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
+import 'package:electronic_packet_tools/Business%20Logic/ad_helper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class PreferredValuesPage extends StatefulWidget {
   const PreferredValuesPage({super.key});
@@ -14,10 +16,39 @@ class PreferredValuesPage extends StatefulWidget {
 }
 
 class _PreferredValuesPageState extends State<PreferredValuesPage> {
+  late BannerAd _bottomBannerAd;
+  bool _idAdLoaded = false;
+
+  void _createdBottomBannerAd() {
+    _bottomBannerAd = BannerAd(
+      size: AdSize.fluid,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _idAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+      request: AdRequest(),
+    );
+    _bottomBannerAd.load();
+  }
+
   @override
   void initState() {
     super.initState();
     context.read<PreferredValuesLogic>().resetAll();
+    _createdBottomBannerAd();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bottomBannerAd.dispose();
   }
 
   @override
@@ -176,7 +207,11 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
                 SizedBox(width: screenWidth * 0.05),
               ],
             ),
-            SizedBox(height: screenHeight * 0.125),
+            SizedBox(height: screenHeight * 0.086),
+            Container(
+              height: screenHeight * 0.07,
+              child: AdWidget(ad: _bottomBannerAd),
+            ),
           ],
         ),
       ),

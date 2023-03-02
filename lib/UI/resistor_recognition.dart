@@ -6,6 +6,8 @@ import '../Business Logic/resistor_recognition_logic.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
 import 'UI_recorces/units.dart';
+import 'package:electronic_packet_tools/Business%20Logic/ad_helper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class ResistorRecognitionPage extends StatefulWidget {
   const ResistorRecognitionPage({super.key});
@@ -16,9 +18,38 @@ class ResistorRecognitionPage extends StatefulWidget {
 }
 
 class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
+  late BannerAd _bottomBannerAd;
+  bool _idAdLoaded = false;
+
+  void _createdBottomBannerAd() {
+    _bottomBannerAd = BannerAd(
+      size: AdSize.fluid,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _idAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+      request: AdRequest(),
+    );
+    _bottomBannerAd.load();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bottomBannerAd.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    _createdBottomBannerAd();
     context.read<ResitoRecogntionLogic>().resetAll();
   }
 
@@ -51,9 +82,9 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
         top: true,
         child: ListView(
           children: [
-            SizedBox(height: screenHeight * 0.05),
+            SizedBox(height: screenHeight * 0.045),
             SizedBox(
-              height: screenHeight * 0.2,
+              height: screenHeight * 0.175,
               child: Row(
                 children: [
                   SizedBox(width: screenWidth * 0.2),
@@ -73,7 +104,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                           ),
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.02),
+                      SizedBox(height: screenHeight * 0.01),
                       SizedBox(
                         height: screenHeight * 0.07,
                         width: screenWidth * 0.6,
@@ -521,7 +552,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                             screenHeight: screenHeight),
                       ],
                     ),
-                    SizedBox(height: screenHeight * 0.02),
+                    SizedBox(height: screenHeight * 0.01),
                     Stack(
                       children: [
                         TollContainer(
@@ -573,7 +604,11 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
                 SizedBox(width: screenWidth * 0.05),
               ],
             ),
-            SizedBox(height: screenHeight * 0.03),
+            SizedBox(height: screenHeight * 0.0005),
+            Container(
+              height: screenHeight * 0.07,
+              child: AdWidget(ad: _bottomBannerAd),
+            ),
           ],
         ),
       ),

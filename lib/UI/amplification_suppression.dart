@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../Business Logic/amplification_suppression_logic.dart';
 import '../main_menu.dart';
 import 'UI_recorces/tool_containers.dart';
+import 'package:electronic_packet_tools/Business%20Logic/ad_helper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AmplificationSuppressionPage extends StatefulWidget {
   const AmplificationSuppressionPage({super.key});
@@ -16,9 +18,38 @@ class AmplificationSuppressionPage extends StatefulWidget {
 
 class _AmplificationSuppressionPageState
     extends State<AmplificationSuppressionPage> {
+  late BannerAd _bottomBannerAd;
+  bool _idAdLoaded = false;
+
+  void _createdBottomBannerAd() {
+    _bottomBannerAd = BannerAd(
+      size: AdSize.fluid,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _idAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+      request: AdRequest(),
+    );
+    _bottomBannerAd.load();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bottomBannerAd.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    _createdBottomBannerAd();
     context.read<VoltageCurrentLogic>().resetFields();
     context.read<PowerLogic>().resetFields();
   }
@@ -122,7 +153,11 @@ class _AmplificationSuppressionPageState
                 SizedBox(width: screenWidth * 0.05),
               ],
             ),
-            SizedBox(height: screenHeight * 0.085),
+            SizedBox(height: screenHeight * 0.016),
+            Container(
+              height: screenHeight * 0.07,
+              child: AdWidget(ad: _bottomBannerAd),
+            ),
           ],
         ),
       ),

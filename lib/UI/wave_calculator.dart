@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 import '../Business Logic/wave_calculator_logic.dart';
 import 'UI_recorces/tool_containers.dart';
 import 'UI_recorces/units.dart';
+import 'package:electronic_packet_tools/Business%20Logic/ad_helper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Units units = Units();
 
@@ -16,9 +18,38 @@ class WaveCalculatorPage extends StatefulWidget {
 }
 
 class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
+  late BannerAd _bottomBannerAd;
+  bool _idAdLoaded = false;
+
+  void _createdBottomBannerAd() {
+    _bottomBannerAd = BannerAd(
+      size: AdSize.fluid,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _idAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+      request: AdRequest(),
+    );
+    _bottomBannerAd.load();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bottomBannerAd.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
+    _createdBottomBannerAd();
     context.read<FreqEngLogic>().resetAll();
     context.read<LenEngLogic>().resetAll();
     context.read<PeriodLogic>().resetAll();
@@ -37,9 +68,9 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
         top: true,
         child: ListView(
           children: [
-            SizedBox(height: screenHeight * 0.045),
+            SizedBox(height: screenHeight * 0.0345),
             SizedBox(
-              height: screenHeight * 0.0725,
+              height: screenHeight * 0.07,
               child: Row(
                 children: [
                   SizedBox(width: screenWidth * 0.2),
@@ -61,7 +92,7 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                 ],
               ),
             ),
-            SizedBox(height: screenHeight * 0.025),
+            SizedBox(height: screenHeight * 0.015),
             Row(
               children: [
                 SizedBox(width: screenWidth * 0.05),
@@ -93,7 +124,7 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                             screenHeight: screenHeight),
                       ],
                     ),
-                    SizedBox(height: screenHeight * 0.02),
+                    SizedBox(height: screenHeight * 0.01),
                     Stack(
                       children: [
                         TollContainer(
@@ -120,7 +151,7 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                             screenHeight: screenHeight),
                       ],
                     ),
-                    SizedBox(height: screenHeight * 0.02),
+                    SizedBox(height: screenHeight * 0.01),
                     Stack(
                       children: [
                         TollContainer(
@@ -166,7 +197,11 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
                 SizedBox(width: screenWidth * 0.05),
               ],
             ),
-            SizedBox(height: screenHeight * 0.0275),
+            SizedBox(height: screenHeight * 0.0005),
+            Container(
+              height: screenHeight * 0.07,
+              child: AdWidget(ad: _bottomBannerAd),
+            ),
           ],
         ),
       ),

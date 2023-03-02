@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:electronic_packet_tools/Business%20Logic/ad_helper.dart';
 import 'package:electronic_packet_tools/UI/preferred_values.dart';
 import 'package:electronic_packet_tools/UI/resistor_recognition.dart';
 import 'package:electronic_packet_tools/UI/wave_calculator.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import '../main_menu.dart';
 import 'amplification_suppression.dart';
 import 'digital_filters.dart';
@@ -16,6 +18,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late BannerAd _bottomBannerAd;
+  bool _idAdLoaded = false;
+
+  void _createdBottomBannerAd() {
+    _bottomBannerAd = BannerAd(
+      size: AdSize.fluid,
+      adUnitId: AdHelper.bannerAdUnitId,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _idAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+      request: AdRequest(),
+    );
+    _bottomBannerAd.load();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _createdBottomBannerAd();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bottomBannerAd.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
@@ -53,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            SizedBox(height: screenHeight * 0.075),
+            SizedBox(height: screenHeight * 0.05),
             Row(
               children: [
                 SizedBox(width: screenWidth * 0.065),
@@ -115,7 +151,13 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(width: screenWidth * 0.065),
               ],
             ),
-            SizedBox(height: screenHeight * 0.08)
+            SizedBox(
+              height: screenHeight * 0.035,
+            ),
+            Container(
+              height: screenHeight * 0.07,
+              child: AdWidget(ad: _bottomBannerAd),
+            ),
           ],
         ),
       ),
