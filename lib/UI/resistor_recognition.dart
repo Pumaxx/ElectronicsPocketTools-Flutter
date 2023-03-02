@@ -610,7 +610,7 @@ class ResistorStripe extends StatelessWidget {
   }
 }
 
-class ResistorButton extends StatefulWidget {
+class ResistorButton extends StatelessWidget {
   final double? screenHeight;
   final int? id;
   final Function(int index, Color color, Color secondColor, String text)?
@@ -633,42 +633,35 @@ class ResistorButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ResistorButton> createState() => _ResistorButtonState();
-}
-
-class _ResistorButtonState extends State<ResistorButton> {
-  @override
   Widget build(BuildContext context) {
-    Color? gradientColor = widget.secondColor ?? widget.color;
+    Color? gradientColor = secondColor ?? color;
 
     return Container(
-      height: widget.screenHeight! * 0.0438,
+      height: screenHeight! * 0.0438,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.bottomCenter,
           end: const Alignment(0.0, -0.6),
           colors: [
-            widget.color!,
+            color!,
             gradientColor!,
           ],
         ),
       ),
       child: TextButton(
-        onPressed: widget.enabled!
+        onPressed: enabled!
             ? () {
-                widget.calculate!(
-                    widget.id!, widget.color!, gradientColor, widget.text!);
+                calculate!(id!, color!, gradientColor, text!);
               }
             : null,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
-          foregroundColor:
-              widget.lightBackground! ? customColors.grey : Colors.white,
+          foregroundColor: lightBackground! ? customColors.grey : Colors.white,
         ),
         child: Text(
-          widget.text!,
+          text!,
           style: TextStyle(
-            fontSize: widget.screenHeight! * 0.016,
+            fontSize: screenHeight! * 0.016,
             fontWeight: FontWeight.bold,
           ),
         ),

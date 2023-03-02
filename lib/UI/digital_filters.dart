@@ -201,7 +201,7 @@ class InputContainer extends StatelessWidget {
   }
 }
 
-class ResultPanel extends StatefulWidget {
+class ResultPanel extends StatelessWidget {
   final double? screenHeight;
   final double? screenWidth;
   const ResultPanel({
@@ -211,27 +211,22 @@ class ResultPanel extends StatefulWidget {
   });
 
   @override
-  State<ResultPanel> createState() => _ResultPanelState();
-}
-
-class _ResultPanelState extends State<ResultPanel> {
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(
-          height: widget.screenHeight! * 0.045,
+          height: screenHeight! * 0.045,
         ),
         SizedBox(
-            height: widget.screenHeight! * 0.1835,
+            height: screenHeight! * 0.1835,
             child: Column(
               children: [
                 SizedBox(
-                  height: widget.screenHeight! * 0.045,
+                  height: screenHeight! * 0.045,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(width: widget.screenWidth! * 0.2),
+                      SizedBox(width: screenWidth! * 0.2),
                       Radio(
                         fillColor: MaterialStateColor.resolveWith(
                             (states) => customColors.main),
@@ -248,7 +243,7 @@ class _ResultPanelState extends State<ResultPanel> {
                       AutoSizeText(
                         'Parallel',
                         style: TextStyle(
-                            fontSize: widget.screenWidth! * 0.034,
+                            fontSize: screenWidth! * 0.034,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
@@ -268,24 +263,24 @@ class _ResultPanelState extends State<ResultPanel> {
                       AutoSizeText(
                         'Series',
                         style: TextStyle(
-                            fontSize: widget.screenWidth! * 0.034,
+                            fontSize: screenWidth! * 0.034,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
-                      SizedBox(width: widget.screenWidth! * 0.2),
+                      SizedBox(width: screenWidth! * 0.2),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: widget.screenHeight! * 0.006,
+                  height: screenHeight! * 0.006,
                 ),
                 SizedBox(
-                  height: widget.screenHeight! * 0.045,
+                  height: screenHeight! * 0.045,
                   child: Row(
                     children: [
-                      SizedBox(width: widget.screenWidth! * 0.309),
+                      SizedBox(width: screenWidth! * 0.309),
                       Container(
-                        width: widget.screenWidth! * 0.27,
+                        width: screenWidth! * 0.27,
                         decoration: BoxDecoration(
                           color: customColors.containerResult,
                           borderRadius: const BorderRadius.all(
@@ -303,24 +298,24 @@ class _ResultPanelState extends State<ResultPanel> {
                           child: Text(
                             'Calculate',
                             style: TextStyle(
-                              fontSize: widget.screenHeight! * 0.016,
+                              fontSize: screenHeight! * 0.016,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: widget.screenWidth! * 0.309),
+                      SizedBox(width: screenWidth! * 0.309),
                     ],
                   ),
                 ),
-                SizedBox(height: widget.screenHeight! * 0.01),
+                SizedBox(height: screenHeight! * 0.01),
                 SizedBox(
-                  height: widget.screenHeight! * 0.077,
+                  height: screenHeight! * 0.077,
                   child: Row(
                     children: [
-                      SizedBox(width: widget.screenWidth! * 0.025),
+                      SizedBox(width: screenWidth! * 0.025),
                       SizedBox(
-                        width: widget.screenWidth! * 0.838,
+                        width: screenWidth! * 0.838,
                         child: AutoSizeText(
                           context.watch<DigitalFiltersLogic>().resultText,
                           textAlign: TextAlign.center,
@@ -333,13 +328,13 @@ class _ResultPanelState extends State<ResultPanel> {
                                   : Colors.white),
                         ),
                       ),
-                      SizedBox(width: widget.screenWidth! * 0.025),
+                      SizedBox(width: screenWidth! * 0.025),
                     ],
                   ),
                 ),
               ],
             )),
-        SizedBox(height: widget.screenHeight! * 0.015),
+        SizedBox(height: screenHeight! * 0.015),
       ],
     );
   }

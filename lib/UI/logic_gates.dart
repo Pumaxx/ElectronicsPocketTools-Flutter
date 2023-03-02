@@ -441,7 +441,7 @@ class _GateButtonState extends State<GateButton> {
   }
 }
 
-class GateRessult extends StatefulWidget {
+class GateRessult extends StatelessWidget {
   final double? screenHeight;
   final double? screenWidth;
   final String? gateType;
@@ -453,14 +453,9 @@ class GateRessult extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<GateRessult> createState() => _GateRessultState();
-}
-
-class _GateRessultState extends State<GateRessult> {
-  @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.screenWidth! * 0.085,
+      height: screenWidth! * 0.085,
       decoration: BoxDecoration(
         color: customColors.containerResult,
         borderRadius: const BorderRadius.all(
@@ -474,9 +469,9 @@ class _GateRessultState extends State<GateRessult> {
           disabledForegroundColor: Colors.white,
         ),
         child: Text(
-          context.watch<LogicGatesLogic>().getOutput(widget.gateType!),
+          context.watch<LogicGatesLogic>().getOutput(gateType!),
           style: TextStyle(
-            fontSize: widget.screenHeight! * 0.02,
+            fontSize: screenHeight! * 0.02,
             fontWeight: FontWeight.bold,
           ),
         ),

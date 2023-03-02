@@ -130,7 +130,7 @@ class _AmplificationSuppressionPageState
   }
 }
 
-class VoltCurrContainer extends StatefulWidget {
+class VoltCurrContainer extends StatelessWidget {
   final double? screenHeight;
   final double? screenWidth;
   const VoltCurrContainer({
@@ -140,53 +140,48 @@ class VoltCurrContainer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<VoltCurrContainer> createState() => _VoltCurrContainerState();
-}
-
-class _VoltCurrContainerState extends State<VoltCurrContainer> {
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: widget.screenHeight! * 0.04),
+        SizedBox(height: screenHeight! * 0.04),
         AmpSuppInputContainer(
-          screenHeight: widget.screenHeight!,
-          screenWidth: widget.screenWidth!,
+          screenHeight: screenHeight!,
+          screenWidth: screenWidth!,
           label: 'Input',
           unit: 'V or A',
           index: 0,
         ),
         AmpSuppInputContainer(
-          screenHeight: widget.screenHeight!,
-          screenWidth: widget.screenWidth!,
+          screenHeight: screenHeight!,
+          screenWidth: screenWidth!,
           label: 'Output',
           unit: 'V or A',
           index: 1,
         ),
         AmpSuppOutputContainer(
-          screenHeight: widget.screenHeight!,
-          screenWidth: widget.screenWidth!,
+          screenHeight: screenHeight!,
+          screenWidth: screenWidth!,
           label: 'Dimensionless result',
           unit: 'V/V or A/A',
           index: 0,
         ),
         AmpSuppOutputContainer(
-          screenHeight: widget.screenHeight!,
-          screenWidth: widget.screenWidth!,
+          screenHeight: screenHeight!,
+          screenWidth: screenWidth!,
           label: 'dB result',
           unit: 'dB',
           index: 1,
         ),
         SizedBox(
-          height: widget.screenHeight! * 0.0245,
-          width: widget.screenWidth! * 0.79,
+          height: screenHeight! * 0.0245,
+          width: screenWidth! * 0.79,
         ),
       ],
     );
   }
 }
 
-class PowerContainer extends StatefulWidget {
+class PowerContainer extends StatelessWidget {
   final double? screenHeight;
   final double? screenWidth;
   const PowerContainer({
@@ -196,50 +191,45 @@ class PowerContainer extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<PowerContainer> createState() => _PowerContainerState();
-}
-
-class _PowerContainerState extends State<PowerContainer> {
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: widget.screenHeight! * 0.04),
+        SizedBox(height: screenHeight! * 0.04),
         AmpSuppInputContainer(
-          screenHeight: widget.screenHeight!,
-          screenWidth: widget.screenWidth!,
+          screenHeight: screenHeight!,
+          screenWidth: screenWidth!,
           label: 'Input',
           unit: 'W',
           index: 0,
           isPower: true,
         ),
         AmpSuppInputContainer(
-          screenHeight: widget.screenHeight!,
-          screenWidth: widget.screenWidth!,
+          screenHeight: screenHeight!,
+          screenWidth: screenWidth!,
           label: 'Output',
           unit: 'W',
           index: 1,
           isPower: true,
         ),
         AmpSuppOutputContainer(
-          screenHeight: widget.screenHeight!,
-          screenWidth: widget.screenWidth!,
+          screenHeight: screenHeight!,
+          screenWidth: screenWidth!,
           label: 'Dimensionless result',
           unit: 'W/W',
           index: 0,
           isPowerContainer: true,
         ),
         AmpSuppOutputContainer(
-          screenHeight: widget.screenHeight!,
-          screenWidth: widget.screenWidth!,
+          screenHeight: screenHeight!,
+          screenWidth: screenWidth!,
           label: 'dB result',
           unit: 'dB',
           index: 1,
           isPowerContainer: true,
         ),
         SizedBox(
-          height: widget.screenHeight! * 0.0245,
-          width: widget.screenWidth! * 0.79,
+          height: screenHeight! * 0.0245,
+          width: screenWidth! * 0.79,
         ),
       ],
     );
