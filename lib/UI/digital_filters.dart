@@ -267,7 +267,7 @@ class ResultPanel extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
-                      SizedBox(width: screenWidth! * 0.2),
+                      // SizedBox(width: screenWidth! * 0.2),
                     ],
                   ),
                 ),
