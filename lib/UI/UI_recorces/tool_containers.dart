@@ -155,7 +155,8 @@ class _DropdownContainerState extends State<DropdownContainer> {
                       inputFormatters: widget.textInputFormatter ??
                           <TextInputFormatter>[
                             FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d+\.?\d{0,25}'))
+                                RegExp(r'^\d+\.?\d{0,25}')),
+                            LengthLimitingTextInputFormatter(27),
                           ],
                       style: TextStyle(
                         color: widget.color ?? Colors.white,

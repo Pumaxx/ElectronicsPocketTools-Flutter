@@ -130,110 +130,6 @@ class _AmplificationSuppressionPageState
   }
 }
 
-class AmpSuppInputContainer extends StatelessWidget {
-  final double? screenHeight;
-  final double? screenWidth;
-  final String? label;
-  final String? unit;
-  final int? index;
-  final bool? isPower;
-
-  const AmpSuppInputContainer({
-    Key? key,
-    @required this.screenHeight,
-    @required this.screenWidth,
-    @required this.label,
-    @required this.unit,
-    @required this.index,
-    this.isPower = false,
-  }) : super(key: key);
-
-  void calculateOutputs(BuildContext context, bool isPower, String value) {
-    if (isPower) {
-      context.read<PowerLogic>().changeInput(index!, value);
-      context.read<PowerLogic>().countResults();
-    } else {
-      context.read<VoltageCurrentLogic>().changeInput(index!, value);
-      context.read<VoltageCurrentLogic>().countResults();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: screenHeight! * 0.066,
-      width: screenWidth! * 0.84,
-      child: Column(
-        children: [
-          SizedBox(
-            height: screenHeight! * 0.033,
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: AutoSizeText(
-                label!,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: screenHeight! * 0.019,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: screenHeight! * 0.033,
-            child: Row(
-              children: [
-                SizedBox(
-                  width: screenWidth! * 0.63,
-                  child: TextField(
-                    onChanged: (value) {
-                      calculateOutputs(context, isPower!, value);
-                    },
-                    cursorColor: Colors.white,
-                    cursorWidth: 1.5,
-                    maxLines: 1,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'^\d+\.?\d{0,2}'))
-                    ],
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: screenHeight! * 0.019,
-                    ),
-                    decoration: const InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: screenWidth! * 0.21,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: AutoSizeText(
-                      unit!,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class VoltCurrContainer extends StatefulWidget {
   final double? screenHeight;
   final double? screenWidth;
@@ -346,6 +242,111 @@ class _PowerContainerState extends State<PowerContainer> {
           width: widget.screenWidth! * 0.79,
         ),
       ],
+    );
+  }
+}
+
+class AmpSuppInputContainer extends StatelessWidget {
+  final double? screenHeight;
+  final double? screenWidth;
+  final String? label;
+  final String? unit;
+  final int? index;
+  final bool? isPower;
+
+  const AmpSuppInputContainer({
+    Key? key,
+    @required this.screenHeight,
+    @required this.screenWidth,
+    @required this.label,
+    @required this.unit,
+    @required this.index,
+    this.isPower = false,
+  }) : super(key: key);
+
+  void calculateOutputs(BuildContext context, bool isPower, String value) {
+    if (isPower) {
+      context.read<PowerLogic>().changeInput(index!, value);
+      context.read<PowerLogic>().countResults();
+    } else {
+      context.read<VoltageCurrentLogic>().changeInput(index!, value);
+      context.read<VoltageCurrentLogic>().countResults();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: screenHeight! * 0.066,
+      width: screenWidth! * 0.84,
+      child: Column(
+        children: [
+          SizedBox(
+            height: screenHeight! * 0.033,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: AutoSizeText(
+                label!,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: screenHeight! * 0.019,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: screenHeight! * 0.033,
+            child: Row(
+              children: [
+                SizedBox(
+                  width: screenWidth! * 0.63,
+                  child: TextField(
+                    onChanged: (value) {
+                      calculateOutputs(context, isPower!, value);
+                    },
+                    cursorColor: Colors.white,
+                    cursorWidth: 1.5,
+                    maxLines: 1,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'^\d+\.?\d{0,25}')),
+                      LengthLimitingTextInputFormatter(27),
+                    ],
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenHeight! * 0.019,
+                    ),
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: screenWidth! * 0.21,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: AutoSizeText(
+                      unit!,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

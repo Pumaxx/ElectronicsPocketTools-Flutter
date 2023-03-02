@@ -136,10 +136,18 @@ class PreferredValuesLogic extends ChangeNotifier {
 
   void countRow(List<String> row, List<num> series) {
     num calulatedValue = _realValueFromSeries(num.parse(_idealInput), series);
-    row[0] = calulatedValue.toStringAsExponential(4).replaceAll('e+0', '');
-    row[1] = _countError(calulatedValue)
-        .toStringAsExponential(4)
-        .replaceAll('e+0', '');
+    row[0] = _formatDiplayedValue(calulatedValue);
+    row[1] = _formatDiplayedValue(_countError(calulatedValue));
     row[2] = _countPercentage(_countError(calulatedValue)).toStringAsFixed(2);
+  }
+
+  String _formatDiplayedValue(num val) {
+    if (val == 0) {
+      return val.toString();
+    } else if (val.abs() < 1e3 && _idealInput.length < 6) {
+      return val.toStringAsFixed(3);
+    } else {
+      return val.toStringAsExponential(2);
+    }
   }
 }
