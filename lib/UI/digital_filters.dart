@@ -226,7 +226,6 @@ class ResultPanel extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(width: screenWidth! * 0.2),
                       Radio(
                         fillColor: MaterialStateColor.resolveWith(
                             (states) => customColors.main),
@@ -267,7 +266,6 @@ class ResultPanel extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
-                      // SizedBox(width: screenWidth! * 0.2),
                     ],
                   ),
                 ),
