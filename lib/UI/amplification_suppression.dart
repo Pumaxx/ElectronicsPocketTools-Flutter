@@ -3,7 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../Business Logic/amplification_suppression_logic.dart';
-import '../main_menu.dart';
+import '../main.dart';
 import 'UI_recorces/tool_containers.dart';
 import 'package:electronic_packet_tools/Business%20Logic/ad_helper.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

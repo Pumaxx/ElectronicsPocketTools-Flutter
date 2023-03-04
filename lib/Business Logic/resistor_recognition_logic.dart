@@ -1,5 +1,5 @@
 import 'package:electronic_packet_tools/constants.dart';
-import 'package:electronic_packet_tools/main_menu.dart';
+import 'package:electronic_packet_tools/main.dart';
 import 'package:flutter/material.dart';
 
 class ResitoRecogntionLogic extends ChangeNotifier {

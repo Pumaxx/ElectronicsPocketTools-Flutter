@@ -5,7 +5,7 @@ import 'package:electronic_packet_tools/UI/resistor_recognition.dart';
 import 'package:electronic_packet_tools/UI/wave_calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import '../main_menu.dart';
+import '../main.dart';
 import 'amplification_suppression.dart';
 import 'digital_filters.dart';
 import 'logic_gates.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import '../Business Logic/digital_filters_logic.dart';
-import '../main_menu.dart';
+import '../main.dart';
 import 'UI_recorces/tool_containers.dart';
 import 'package:electronic_packet_tools/Business%20Logic/ad_helper.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/services.dart';
 
-import '../../main_menu.dart';
+import '../../main.dart';
 
 class TollContainer extends StatelessWidget {
   final double? height;
