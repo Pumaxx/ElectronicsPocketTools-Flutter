@@ -24,7 +24,7 @@ class _AmplificationSuppressionPageState
   void _createdBottomBannerAd() {
     _bottomBannerAd = BannerAd(
       size: AdSize.fluid,
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: AdHelper.getBannerAdUnitId('amp'),
       listener: BannerAdListener(
         onAdLoaded: (_) {
           setState(() {

@@ -22,7 +22,7 @@ class _LogicGatesPageState extends State<LogicGatesPage> {
   void _createdBottomBannerAd() {
     _bottomBannerAd = BannerAd(
       size: AdSize.fluid,
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: AdHelper.getBannerAdUnitId('gate'),
       listener: BannerAdListener(
         onAdLoaded: (_) {
           setState(() {

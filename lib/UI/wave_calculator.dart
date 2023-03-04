@@ -24,7 +24,7 @@ class _WaveCalculatorPageState extends State<WaveCalculatorPage> {
   void _createdBottomBannerAd() {
     _bottomBannerAd = BannerAd(
       size: AdSize.fluid,
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: AdHelper.getBannerAdUnitId('wave'),
       listener: BannerAdListener(
         onAdLoaded: (_) {
           setState(() {

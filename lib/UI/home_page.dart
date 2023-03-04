@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   void _createdBottomBannerAd() {
     _bottomBannerAd = BannerAd(
       size: AdSize.fluid,
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: AdHelper.getBannerAdUnitId('menu'),
       listener: BannerAdListener(
         onAdLoaded: (_) {
           setState(() {

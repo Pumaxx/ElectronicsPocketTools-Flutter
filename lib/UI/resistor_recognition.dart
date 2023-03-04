@@ -24,7 +24,7 @@ class _ResistorRecognitionPageState extends State<ResistorRecognitionPage> {
   void _createdBottomBannerAd() {
     _bottomBannerAd = BannerAd(
       size: AdSize.fluid,
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: AdHelper.getBannerAdUnitId('resistor'),
       listener: BannerAdListener(
         onAdLoaded: (_) {
           setState(() {

@@ -22,7 +22,7 @@ class _PreferredValuesPageState extends State<PreferredValuesPage> {
   void _createdBottomBannerAd() {
     _bottomBannerAd = BannerAd(
       size: AdSize.fluid,
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: AdHelper.getBannerAdUnitId('series'),
       listener: BannerAdListener(
         onAdLoaded: (_) {
           setState(() {

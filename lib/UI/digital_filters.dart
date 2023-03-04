@@ -21,7 +21,7 @@ class _DigitalFiltersPageState extends State<DigitalFiltersPage> {
   void _createdBottomBannerAd() {
     _bottomBannerAd = BannerAd(
       size: AdSize.fluid,
-      adUnitId: AdHelper.bannerAdUnitId,
+      adUnitId: AdHelper.getBannerAdUnitId('filter'),
       listener: BannerAdListener(
         onAdLoaded: (_) {
           setState(() {
